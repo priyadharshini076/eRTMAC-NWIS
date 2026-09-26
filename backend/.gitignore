@@ -1,0 +1,11 @@
+.env
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+scratch_query.py
+ml_artifacts/
+ml_artifacts_v2/
+data/
+../data/
+../ml_artifacts/

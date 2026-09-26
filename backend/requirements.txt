@@ -5,5 +5,14 @@ psycopg2-binary==2.9.10
 python-dotenv==1.1.1
 pydantic==2.11.7
 alembic==1.16.5
-geoalchemy2==0.18.0
+geoalchemy2==0.20.0
 pgvector==0.4.1
+pandas==2.3.2
+PyMuPDF
+pytesseract
+Pillow
+opencv-python
+pandas
+numpy
+scikit-learn 
+xgboost 

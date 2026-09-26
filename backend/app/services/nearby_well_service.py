@@ -1,0 +1,78 @@
+from sqlalchemy import text
+
+def get_nearby_wells(db, well_id, radius_m=5000):
+
+    query = text("""
+        SELECT
+            w2.well_id,
+            w2.well_name,
+            w2.formation,
+            w2.latitude,
+            w2.longitude,
+
+            ROUND(
+                ST_Distance(
+                    w1.geom::geography,
+                    w2.geom::geography
+                )::numeric,
+                2
+            ) AS distance_m,
+
+            COUNT(e.id) AS historical_events,
+
+            COUNT(
+                CASE
+                    WHEN e.severity = 'High'
+                    THEN 1
+                END
+            ) AS high_severity_events,
+
+            COALESCE(latest.event_type, 'None') AS latest_event
+
+        FROM wells_master w1
+
+        JOIN wells_master w2
+            ON w1.well_id <> w2.well_id
+
+        LEFT JOIN drilling_events e
+            ON e.well_id = w2.well_id
+
+        LEFT JOIN LATERAL (
+            SELECT event_type
+            FROM drilling_events de
+            WHERE de.well_id = w2.well_id
+            ORDER BY de.event_date DESC
+            LIMIT 1
+        ) latest ON TRUE
+
+        WHERE
+            w1.well_id = :well_id
+
+        AND ST_DWithin(
+            w1.geom::geography,
+            w2.geom::geography,
+            :radius
+        )
+
+        GROUP BY
+            w2.well_id,
+            w2.well_name,
+            w2.formation,
+            w2.latitude,
+            w2.longitude,
+            w1.geom,
+            w2.geom,
+            latest.event_type
+
+        ORDER BY distance_m;
+    """)
+
+    result = db.execute(
+        query,
+        {
+            "well_id": well_id,
+            "radius": radius_m
+        }
+    )
+
+    return result.mappings().all()
