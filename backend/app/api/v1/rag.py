@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.database.dependencies import get_db
+from app.api import deps
+from app.models.user import User
 from app.services.llm_service import generate_rag_response
 from app.services.rag_service import retrieve_rag_evidence
 
@@ -10,6 +12,8 @@ router = APIRouter(
     tags=["RAG"]
 )
 
+
+allow_roles = deps.RoleChecker(["drilling_engineer", "drilling_supervisor", "geologist", "well_planner", "admin"])
 
 @router.get(
     "/wells/{well_id}/rag-context"
@@ -28,6 +32,7 @@ def get_rag_context(
         le=20,
     ),
     db: Session = Depends(get_db),
+    current_user: User = Depends(allow_roles),
 ):
     return retrieve_rag_evidence(
         db=db,
@@ -55,6 +60,7 @@ def get_rag_analysis(
         le=20,
     ),
     db: Session = Depends(get_db),
+    current_user: User = Depends(allow_roles),
 ):
     """
     Retrieve, deduplicate and generate a grounded RAG analysis.

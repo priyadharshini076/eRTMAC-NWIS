@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.database.dependencies import get_db
+from app.api import deps
+from app.models.user import User
 from app.services.decision_support_service import (
     build_decision_support,
 )
@@ -11,6 +13,8 @@ router = APIRouter(
     tags=["Decision Support"]
 )
 
+
+allow_roles = deps.RoleChecker(["drilling_engineer", "drilling_supervisor", "admin"])
 
 @router.get(
     "/wells/{well_id}/decision-support"
@@ -59,6 +63,7 @@ def get_decision_support(
     ),
 
     db: Session = Depends(get_db),
+    current_user: User = Depends(allow_roles),
 ):
     return build_decision_support(
         db=db,
