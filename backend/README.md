@@ -81,6 +81,12 @@ The following backend pipeline is implemented and tested:
 - Evidence IDs and source traceability
 - Unified `/decision-support` endpoint
 - ML-only, historical-only, and combined fusion validation
+- **Security & RBAC Layer:**
+  - JWT Authentication (Argon2 Hashing)
+  - Role-Based Access Control (RBAC) across routers
+  - Dynamic user deactivation and role revocation checks
+  - Rate Limiting (`slowapi`) and explicit CORS policies
+  - Standardized Audit Logging Service
 
 The next major task is frontend/dashboard integration.
 
@@ -102,6 +108,7 @@ eRTMAC-NWIS/
 |   |   |       +-- trigger.py
 |   |   |       +-- rag.py
 |   |   |       +-- decision_support.py
+|   |   |       +-- auth.py
 |   |   |
 |   |   +-- models/
 |   |   +-- schemas/
@@ -115,6 +122,7 @@ eRTMAC-NWIS/
 |   |   |   +-- risk_fusion_service_v2.py
 |   |   |   +-- trigger_service.py
 |   |   |   +-- rag_service.py
+|   |   |   +-- audit_service.py
 |   |   |   +-- llm_service.py
 |   |   |   +-- decision_support_service.py
 |   |   |
@@ -131,8 +139,18 @@ eRTMAC-NWIS/
 |   |   +-- process_all_documents.py
 |   |   +-- process_one_document.py
 |   |   +-- seed_all.py
+|   |   +-- seed_admin.py
+|   |   +-- seed_users.py
+|   |   +-- manual_verification.py
+|   |
+|   +-- tests/
+|   |   +-- __init__.py
+|   |   +-- test_auth.py
+|   |   +-- test_rbac.py
+|   |   +-- test_security.py
 |   |
 |   +-- requirements.txt
+|   +-- pytest.ini
 |   +-- .env
 |
 +-- data/
@@ -211,6 +229,13 @@ RAG_LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
 RAG_LLM_API_KEY=<YOUR_GEMINI_API_KEY>
 RAG_LLM_MODEL=gemini-3.8-flash
 RAG_LLM_TIMEOUT_SECONDS=60
+
+JWT_SECRET_KEY=<YOUR_SECURE_RANDOM_32_BYTE_HEX_STRING>
+JWT_ALGORITHM=HS256
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=admin@ertmac-nwis.local
+ADMIN_PASSWORD=admin123
 ```
 Use your own API key. **Never commit `.env` to GitHub.**
 
@@ -229,6 +254,8 @@ The database currently contains tables including:
 - `documents`
 - `extracted_document_data`
 - `document_events`
+- `users` (Authentication/RBAC)
+- `audit_logs` (Security/Action tracking)
 - `alembic_version`
 
 PostGIS system objects are also present.
@@ -268,9 +295,18 @@ uvicorn app.main:app --reload
 
 ### Health
 ```http
-GET /api/v1/health
-GET /api/v1/db-health
+GET /api/v1/health       # Public
+GET /api/v1/db-health    # Admin Only
 ```
+
+### Authentication & Security
+```http
+POST /api/v1/auth/login  # Public (Rate Limited 5/min)
+GET /api/v1/auth/me      # Requires JWT Auth
+```
+- Available Roles: `admin`, `drilling_engineer`, `drilling_supervisor`, `geologist`, `well_planner`.
+- Missing or tampered JWTs return `401 Unauthorized`.
+- Roles without permission return `403 Forbidden`.
 
 ### Nearby Wells
 ```http
@@ -322,6 +358,28 @@ This is the main endpoint for frontend integration.
 For integration testing only:
 `GET /api/v1/wells/{well_id}/decision-support?force_rag=true`
 *`force_rag=true` is not normal trigger behavior. It is used to test the complete RAG/Gemini path even when the trigger policy says RAG is not required.*
+
+## 12. Security & RBAC Layer Architecture
+
+The backend implements a highly strict, active-session authorization framework designed to protect well intelligence APIs.
+
+### Role-Based Access Control (RBAC) Matrix
+| Endpoint               | Engineer | Supervisor | Geologist | Well Planner | Admin |
+|------------------------|----------|------------|-----------|--------------|-------|
+| `/risk`                | ✅       | ✅         | ❌        | ❌           | ✅    |
+| `/trigger`             | ✅       | ✅         | ❌        | ❌           | ✅    |
+| `/decision-support`    | ✅       | ✅         | ❌        | ❌           | ✅    |
+| `/nearby-wells`        | ✅       | ✅         | ✅        | ✅           | ✅    |
+| `/intelligence`        | ✅       | ✅         | ✅        | ✅           | ✅    |
+| `/rag`                 | ✅       | ✅         | ✅        | ✅           | ✅    |
+| `/db-health`           | ❌       | ❌         | ❌        | ❌           | ✅    |
+
+### Architecture Features
+1. **Dynamic Authentication:** The backend does **not** trust the JWT payload for authorization. On every protected request, the API queries the live PostgreSQL database (via `deps.get_current_user`) to fetch the user's *current* role and active status.
+2. **Instant Revocation:** If a user is deactivated or their role is changed by an admin, their active JWTs immediately drop to `401 Unauthorized` or `403 Forbidden` on the very next request.
+3. **Audit Logging:** Every critical API action (like viewing risk profiles) records a structured audit log containing `user_id`, `well_id`, HTTP `method`, `endpoint`, and `status_code`. If the audit database write temporarily fails, the main business API gracefully handles the error without crashing the user's request.
+4. **Rate Limiting:** `POST /api/v1/auth/login` is rate-limited to 5 requests per minute using `slowapi`.
+5. **Secure Middleware:** Protected by strict CORS boundary rules and custom security headers (e.g., `X-Content-Type-Options: nosniff`).
 
 ## 12. Risk Fusion Logic
 
@@ -481,7 +539,7 @@ git push origin main
 If your branch naming is different, push to the team's agreed branch instead.
 
 **Do NOT commit:**
-`.env`, `venv/`, `__pycache__/`, `*.pyc`, local secrets/API keys, local database dumps.
+`.env`, `venv/`, `__pycache__/`, `*.pyc`, `.pytest_cache/`, local secrets/API keys, local database dumps.
 
 Check that `.gitignore` covers local environments and secrets.
 
@@ -506,11 +564,14 @@ Implemented:
 - RAG retrieval + WCR/DDR deduplication
 - Gemini grounded analysis
 - Unified decision-support endpoint
+- JWT Authentication & RBAC Layer
+- Audit Logging & Rate Limiting
 
 Validated scenarios:
 1. ML + Historical: OIL-NHK-013
 2. ML only: OIL-NHK-004
 3. Historical only: OIL-BGJ-002
+4. Security: ST-01 through ST-14 Tests
 
 Next task:
 Build the frontend/Drilling Engineer dashboard against:
@@ -568,7 +629,24 @@ Use wording such as "ML early-warning probability", "ML early-warning score", or
 - Current RAG/LLM behavior should remain evidence-grounded; do not add free-form operational facts to prompts without corresponding source evidence.
 - The dashboard/frontend is the next major integration task.
 
-## 25. Suggested Next Development Tasks
+## 25. Testing Guidelines
+
+The backend uses `pytest` for all unit and integration testing. 
+
+To run the complete suite, from the `backend/` directory:
+```powershell
+pytest -v
+```
+
+Current test coverage explicitly handles:
+- **Authentication:** Valid/invalid logins, expired JWTs, tampered JWTs.
+- **Authorization (RBAC):** Tests that engineers can hit `/risk`, but are blocked from `/db-health` which requires `admin`.
+- **Session Revocation:** Tests that role changes and user deactivations instantly block subsequent requests.
+- **Middleware:** Verifies CORS policies and security headers.
+
+Always run `pytest` before pushing changes. If you add new protected endpoints, write an equivalent test in `tests/test_rbac.py` or `tests/test_auth.py` to ensure it integrates correctly with the security layer.
+
+## 26. Suggested Next Development Tasks
 
 1. **Priority 1:** Frontend Drilling Engineer dashboard
 2. **Priority 2:** Well selection + current telemetry panel
@@ -577,7 +655,7 @@ Use wording such as "ML early-warning probability", "ML early-warning score", or
 5. **Priority 5:** Engineer decision/action logging
 6. **Priority 6:** Role-based views for Drilling Engineer, Drilling Supervisor, Geologist, and Well Planner
 
-## 26. Quick Start Summary
+## 27. Quick Start Summary
 
 ```powershell
 # Clone
@@ -597,7 +675,14 @@ pip install -r requirements.txt
 # Migrations
 alembic upgrade head
 
-# Run
+# Seed Default Users
+python scripts\seed_admin.py
+python scripts\seed_users.py
+
+# Run Tests
+pytest -v
+
+# Run Server
 uvicorn app.main:app --reload
 
 # Open Swagger
