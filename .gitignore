@@ -5,4 +5,3 @@ __pycache__/
 .pytest_cache/
 ml_artifacts/
 ml_artifacts_v2/
-data/
