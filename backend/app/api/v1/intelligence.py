@@ -10,10 +10,14 @@ from app.services.intelligence_service import (
 # Keep the same get_db import that your working nearby-wells
 # endpoint currently uses.
 from app.database.dependencies import get_db
+from app.api import deps
+from app.models.user import User
 
 
 router = APIRouter()
 
+
+allow_roles = deps.RoleChecker(["drilling_engineer", "drilling_supervisor", "geologist", "well_planner", "admin"])
 
 @router.get("/wells/{well_id}/intelligence")
 def get_well_intelligence(
@@ -34,6 +38,7 @@ def get_well_intelligence(
         le=10,
     ),
     db: Session = Depends(get_db),
+    current_user: User = Depends(allow_roles),
 ):
     """
     Historical Offset-Well Intelligence Builder.

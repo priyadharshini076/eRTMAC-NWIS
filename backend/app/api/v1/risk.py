@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.database.dependencies import get_db
+from app.api import deps
+from app.models.user import User
 
 from app.services.intelligence_service import (
     WellNotFoundError,
@@ -14,6 +16,7 @@ from app.services.risk_fusion_service_v2 import (
 
 router = APIRouter()
 
+allow_engineers = deps.RoleChecker(["drilling_engineer", "admin", "drilling_supervisor"])
 
 @router.get("/wells/{well_id}/risk")
 def get_well_risk(
@@ -39,6 +42,7 @@ def get_well_risk(
         le=100,
     ),
     db: Session = Depends(get_db),
+    current_user: User = Depends(allow_engineers),
 ):
     try:
         return build_risk_fusion(

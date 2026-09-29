@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.database.dependencies import get_db
+from app.api import deps
+from app.models.user import User
 from app.services.risk_fusion_service_v2 import (
     build_risk_fusion,
 )
@@ -12,6 +14,8 @@ from app.services.trigger_service import (
 
 router = APIRouter()
 
+
+allow_roles = deps.RoleChecker(["drilling_engineer", "drilling_supervisor", "admin"])
 
 @router.get("/wells/{well_id}/trigger")
 def get_well_trigger(
@@ -37,6 +41,7 @@ def get_well_trigger(
         le=100,
     ),
     db: Session = Depends(get_db),
+    current_user: User = Depends(allow_roles),
 ):
 
     try:
