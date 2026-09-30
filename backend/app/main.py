@@ -15,6 +15,7 @@ from app.api.v1 import auth
 from app.api.v1 import drilling_ws
 from app.api.v1 import correlation
 from app.api.v1 import gis
+from app.api.v1 import reports
 
 app = FastAPI(
     title="eRTMAC-NWIS API",
@@ -63,5 +64,6 @@ app.include_router(
 app.include_router(drilling_ws.router, prefix="/api/v1")
 app.include_router(correlation.router, prefix="/api/v1")
 app.include_router(gis.router, prefix="/api/v1")
+app.include_router(reports.router, prefix="/api/v1")
 
 

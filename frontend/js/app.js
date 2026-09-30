@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageCorrelation = document.getElementById("pageCorrelation");
   const pageMap = document.getElementById("pageMap");
   const pageRagBot = document.getElementById("pageRagBot");
+  const pageReports = document.getElementById("pageReports");
 
   // Populate Dropdown
   function populateWellDropdown(filter = "ALL") {
@@ -581,6 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageAlerts = document.getElementById("pageAlerts");
     const pageCorrelation = document.getElementById("pageCorrelation");
     const pageMap = document.getElementById("pageMap");
+    const pageReports = document.getElementById("pageReports");
 
     // Hide all pages
     if (pageRiskAssessment) pageRiskAssessment.classList.add("hidden");
@@ -589,6 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (pageMap) pageMap.classList.add("hidden");
     if (pageDrillEngineer) pageDrillEngineer.classList.add("hidden");
     if (pageRagBot) pageRagBot.classList.add("hidden");
+    if (pageReports) pageReports.classList.add("hidden");
 
     // Clear active navigation styles
     if (navRiskAssessment) navRiskAssessment.classList.remove("active");
@@ -638,6 +641,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.ragChatbotInstance) {
         window.ragChatbotInstance.loadQuickStats();
         window.ragChatbotInstance.scrollToBottom();
+      }
+    } else if (target === "reports") {
+      if (navReports) navReports.classList.add("active");
+      if (pageReports) pageReports.classList.remove("hidden");
+      if (window.reportsEngineInstance) {
+        window.reportsEngineInstance.init();
       }
     } else {
       showToast(`Switched view to ${target.toUpperCase()}`);
@@ -692,7 +701,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (navReports) {
     navReports.addEventListener("click", (e) => {
       e.preventDefault();
-      showToast("Reports Portal • Daily Drilling Reports (DDR) & SCADA Archive");
+      switchTab("reports");
     });
   }
 
@@ -849,7 +858,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Check location hash for initial view
   const currentHash = window.location.hash.replace("#", "").toLowerCase();
-  if (currentHash && ["map", "assessment", "alerts", "correlation", "engineer"].includes(currentHash)) {
+  if (currentHash && ["map", "assessment", "alerts", "correlation", "engineer", "ragbot", "reports"].includes(currentHash)) {
     switchTab(currentHash);
   } else {
     switchTab("alerts");
@@ -857,7 +866,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("hashchange", () => {
     const hash = window.location.hash.replace("#", "").toLowerCase();
-    if (hash && ["map", "assessment", "alerts", "correlation", "engineer"].includes(hash)) {
+    if (hash && ["map", "assessment", "alerts", "correlation", "engineer", "ragbot", "reports"].includes(hash)) {
       switchTab(hash);
     }
   });

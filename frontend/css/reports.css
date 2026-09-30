@@ -1,0 +1,798 @@
+/* ==========================================================================
+   NWIS - DRILLING INTELLIGENCE & WELL PERFORMANCE REPORTS STYLES
+   Oil India Limited | Ministry of Petroleum & Natural Gas
+   ========================================================================== */
+
+.reports-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background-color: #0b1120;
+  min-height: calc(100vh - 65px);
+  color: #f1f5f9;
+  box-sizing: border-box;
+}
+
+/* 1. Header Toolbar Card */
+.reports-header-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85));
+  border: 2px solid #0ea5e9;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.reports-header-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
+}
+
+.reports-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.reports-title-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.reports-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+}
+
+.reports-title-text h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reports-title-text p {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: #94a3b8;
+  letter-spacing: 0.3px;
+}
+
+.report-tag-official {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #0284c7;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Actions Toolbar */
+.reports-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.well-select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1.5px solid #0284c7;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.well-select-wrapper label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.well-select-dropdown {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.well-select-dropdown option {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.btn-report-download {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  border: 1.5px solid #38bdf8;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.btn-report-download:hover {
+  background: linear-gradient(135deg, #0369a1, #075985);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45);
+}
+
+.btn-report-print {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30, 41, 59, 0.8);
+  color: #f1f5f9;
+  border: 1.5px solid #64748b;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-report-print:hover {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: #94a3b8;
+  color: #ffffff;
+}
+
+.btn-report-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1.5px solid #475569;
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-report-refresh:hover {
+  color: #38bdf8;
+  border-color: #0284c7;
+  transform: rotate(45deg);
+}
+
+/* 2. Top Summary KPI Pill Row */
+.reports-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.report-kpi-pill {
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #111827;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.report-kpi-pill:hover {
+  transform: translateY(-2px);
+}
+
+.report-kpi-pill.kpi-blue {
+  border: 2px solid #3b82f6;
+}
+
+.report-kpi-pill.kpi-emerald {
+  border: 2px solid #10b981;
+}
+
+.report-kpi-pill.kpi-amber {
+  border: 2px solid #f59e0b;
+}
+
+.report-kpi-pill.kpi-purple {
+  border: 2px solid #8b5cf6;
+}
+
+.kpi-pill-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi-pill-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+.kpi-pill-val {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.kpi-pill-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.kpi-pill-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpi-blue .kpi-pill-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.kpi-emerald .kpi-pill-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.kpi-amber .kpi-pill-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.kpi-purple .kpi-pill-icon {
+  background: rgba(139, 92, 246, 0.15);
+  color: #c084fc;
+}
+
+/* 3. Main Grid Sections */
+.reports-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.report-card {
+  background: #111827;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.report-card.card-span-2 {
+  grid-column: span 2;
+}
+
+/* Distinct Card Borders */
+.card-border-blue {
+  border: 2px solid #3b82f6;
+}
+
+.card-border-cyan {
+  border: 2px solid #0ea5e9;
+}
+
+.card-border-emerald {
+  border: 2px solid #10b981;
+}
+
+.card-border-amber {
+  border: 2px solid #f59e0b;
+}
+
+.card-border-purple {
+  border: 2px solid #8b5cf6;
+}
+
+.card-border-pink {
+  border: 2px solid #ec4899;
+}
+
+.card-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.card-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #f1f5f9;
+}
+
+.card-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.card-badge.badge-blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.card-badge.badge-cyan {
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.card-badge.badge-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.card-badge.badge-amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Param Table Grid */
+.param-table-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.param-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.param-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.param-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* 8 Real-time Telemetry Tiles */
+.telemetry-tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.telemetry-tile {
+  background: #0f172a;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.t-tile-depth {
+  border: 2px solid #0284c7;
+}
+
+.t-tile-rop {
+  border: 2px solid #8b5cf6;
+}
+
+.t-tile-wob {
+  border: 2px solid #ef4444;
+}
+
+.t-tile-torque {
+  border: 2px solid #f59e0b;
+}
+
+.t-tile-rpm {
+  border: 2px solid #06b6d4;
+}
+
+.t-tile-pump {
+  border: 2px solid #ec4899;
+}
+
+.t-tile-mud {
+  border: 2px solid #10b981;
+}
+
+.t-tile-flow {
+  border: 2px solid #6366f1;
+}
+
+.t-tile-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.t-tile-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.t-tile-sub {
+  font-size: 10px;
+  color: #64748b;
+}
+
+/* Data Tables */
+.report-data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.report-data-table th {
+  background: rgba(30, 41, 59, 0.9);
+  color: #94a3b8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.report-data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+}
+
+.report-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.report-data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tr-active-highlight td {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #34d399 !important;
+  font-weight: 600;
+}
+
+/* Hazard Probabilities */
+.hazard-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  gap: 12px;
+}
+
+.hazard-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hazard-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hazard-desc {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.hazard-progress-wrap {
+  width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hazard-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.hazard-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.hazard-pct {
+  font-size: 12px;
+  font-weight: 700;
+  width: 38px;
+  text-align: right;
+}
+
+/* Sign-off Box */
+.signoff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.signoff-box {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.signoff-role {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+.signoff-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.signoff-dept {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.signoff-stamp {
+  margin-top: 8px;
+  font-size: 10px;
+  padding: 4px 8px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #34d399;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .reports-kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .reports-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-card.card-span-2 {
+    grid-column: span 1;
+  }
+  .telemetry-tiles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .signoff-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   PRINT / PDF EXPORT MEDIA STYLES
+   Inverts dark theme to crisp white paper layout for printing / saving to PDF
+   ========================================================================== */
+@media print {
+  /* Hide extraneous web app elements */
+  .top-header,
+  .app-sidebar,
+  .reports-actions-bar,
+  .btn-report-download,
+  .btn-report-print,
+  .btn-report-refresh,
+  .toast-notice,
+  #btnSignOut {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+  }
+
+  .app-container {
+    display: block !important;
+  }
+
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .reports-page-container {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    gap: 14pt !important;
+  }
+
+  .reports-header-card {
+    background: #f8fafc !important;
+    border: 1pt solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    padding: 12pt !important;
+  }
+
+  .reports-header-card::before {
+    display: none !important;
+  }
+
+  .reports-title-text h2 {
+    color: #0f172a !important;
+    font-size: 16pt !important;
+  }
+
+  .reports-title-text p {
+    color: #475569 !important;
+  }
+
+  .report-kpi-pill {
+    background: #f8fafc !important;
+    border: 1pt solid #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+
+  .kpi-pill-val {
+    color: #0f172a !important;
+  }
+
+  .report-card {
+    background: #ffffff !important;
+    border: 1pt solid #cbd5e1 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    padding: 12pt !important;
+  }
+
+  .card-header-bar {
+    border-bottom: 1pt solid #e2e8f0 !important;
+  }
+
+  .card-header-title {
+    color: #0f172a !important;
+  }
+
+  .param-item {
+    background: #f8fafc !important;
+    border: 1pt solid #e2e8f0 !important;
+  }
+
+  .param-val {
+    color: #0f172a !important;
+  }
+
+  .telemetry-tile {
+    background: #f8fafc !important;
+    border: 1pt solid #cbd5e1 !important;
+  }
+
+  .t-tile-val {
+    color: #0f172a !important;
+  }
+
+  .report-data-table {
+    border: 1pt solid #cbd5e1 !important;
+  }
+
+  .report-data-table th {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border-bottom: 1pt solid #cbd5e1 !important;
+  }
+
+  .report-data-table td {
+    color: #0f172a !important;
+    border-bottom: 0.5pt solid #e2e8f0 !important;
+  }
+
+  .hazard-row-item {
+    background: #f8fafc !important;
+    border: 1pt solid #e2e8f0 !important;
+  }
+
+  .hazard-title {
+    color: #0f172a !important;
+  }
+
+  .signoff-box {
+    background: #f8fafc !important;
+    border: 1pt solid #e2e8f0 !important;
+  }
+
+  .signoff-name {
+    color: #0f172a !important;
+  }
+}

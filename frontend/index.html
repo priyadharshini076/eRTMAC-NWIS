@@ -12,6 +12,7 @@
   
   <link rel="stylesheet" href="css/style.css?v=2.3">
   <link rel="stylesheet" href="css/rag-bot.css?v=2.3">
+  <link rel="stylesheet" href="css/reports.css?v=2.3">
 
   <!-- Leaflet OpenStreetMap Engine -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -3761,6 +3762,369 @@
         </div>
       </section>
 
+      <!-- =========================================================
+           REPORTS VIEWPORT: WELL INTELLIGENCE & DRILLING DOSSIER
+           Oil India Limited | Ministry of Petroleum & Natural Gas
+           ========================================================= -->
+      <section class="page-view hidden" id="pageReports">
+        <div class="reports-page-container">
+
+          <!-- TOP ACTION HEADER BAR -->
+          <div class="reports-header-card">
+            <div class="reports-header-top">
+              <div class="reports-title-group">
+                <div class="reports-icon-badge">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </div>
+                <div class="reports-title-text">
+                  <h2>
+                    <span id="reportWellTitle">Nahorkatiya-104 (Active Target)</span>
+                    <span class="report-tag-official">OFFICIAL WELL DOSSIER</span>
+                    <span class="card-badge badge-green" id="reportWellStatusBadge">Active Drilling</span>
+                  </h2>
+                  <p id="reportWellSubtitle">Nahorkatiya Field • Assam-Arakan Basin • Rig: BHEL 2000 HP Rig #14 • Spud: 12-Mar-2024</p>
+                </div>
+              </div>
+
+              <!-- Action Controls -->
+              <div class="reports-actions-bar">
+                <!-- Well Selector -->
+                <div class="well-select-wrapper">
+                  <label for="reportWellSelect">SELECT WELL:</label>
+                  <select id="reportWellSelect" class="well-select-dropdown">
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+
+                <!-- Download Official PDF Button -->
+                <button class="btn-report-download" id="btnDownloadReportPdf" title="Download Official Government & OIL PDF Drilling Report">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  <span>DOWNLOAD PDF REPORT</span>
+                </button>
+
+                <!-- Print / Save as PDF Button -->
+                <button class="btn-report-print" id="btnPrintReport" title="Print or Save via Browser PDF Exporter">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polyline points="6 9 6 2 18 2 18 9"/>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                    <rect x="6" y="14" width="12" height="8"/>
+                  </svg>
+                  <span>PRINT / SAVE PDF</span>
+                </button>
+
+                <!-- Refresh Button -->
+                <button class="btn-report-refresh" id="btnRefreshReportData" title="Refresh Live Drilling Telemetry">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polyline points="23 4 23 10 17 10"/>
+                    <polyline points="1 20 1 14 7 14"/>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 4 Summary KPI Pills Row -->
+            <div class="reports-kpi-row">
+              <div class="report-kpi-pill kpi-blue">
+                <div class="kpi-pill-meta">
+                  <span class="kpi-pill-lbl">CURRENT / TARGET DEPTH</span>
+                  <span class="kpi-pill-val" id="reportKpiDepth">2,501.3 m</span>
+                  <span class="kpi-pill-sub" id="reportKpiDepthSub">65.1% of 3,842 m TD</span>
+                </div>
+                <div class="kpi-pill-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>
+                </div>
+              </div>
+
+              <div class="report-kpi-pill kpi-emerald">
+                <div class="kpi-pill-meta">
+                  <span class="kpi-pill-lbl">ACTIVE FORMATION</span>
+                  <span class="kpi-pill-val" id="reportKpiFormation">Tipam Sandstone</span>
+                  <span class="kpi-pill-sub">Porous Sand • 2,200m – 2,680m</span>
+                </div>
+                <div class="kpi-pill-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+              </div>
+
+              <div class="report-kpi-pill kpi-amber">
+                <div class="kpi-pill-meta">
+                  <span class="kpi-pill-lbl">DRILLING SPEED &amp; WOB</span>
+                  <span class="kpi-pill-val" id="reportKpiRopWob">12.6 m/h • 27.2 t</span>
+                  <span class="kpi-pill-sub">Steady Penetration Gradient</span>
+                </div>
+                <div class="kpi-pill-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+              </div>
+
+              <div class="report-kpi-pill kpi-purple">
+                <div class="kpi-pill-meta">
+                  <span class="kpi-pill-lbl">AI HAZARD RISK SCORE</span>
+                  <span class="kpi-pill-val" id="reportKpiRisk">64.0%</span>
+                  <span class="kpi-pill-sub" id="reportKpiRiskSub">SAFE / PERMIT ACTIVE</span>
+                </div>
+                <div class="kpi-pill-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAIN REPORTS 2-COLUMN GRID -->
+          <div class="reports-grid">
+
+            <!-- CARD 1: WELL MASTER TECHNICAL PARAMETERS -->
+            <div class="report-card card-border-blue">
+              <div class="card-header-bar">
+                <div class="card-header-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  <span>1. Well Master Identification &amp; Technical Parameters</span>
+                </div>
+                <span class="card-badge badge-blue">DGH Registered</span>
+              </div>
+              <div class="param-table-grid">
+                <div class="param-item">
+                  <span class="param-lbl">Well ID &amp; API Number</span>
+                  <span class="param-val" id="repParamWellId">OIL-AS-NHRK-104 (OIL-ASM-000104)</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Licensed Operator</span>
+                  <span class="param-val" id="repParamOperator">Oil India Limited</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Geographic Basin / State</span>
+                  <span class="param-val" id="repParamLocation">Dibrugarh, Assam (Assam-Arakan Basin)</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Petroleum Exploration License</span>
+                  <span class="param-val" id="repParamBlock">PEL-ASSAM-02</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Spudding Date</span>
+                  <span class="param-val" id="repParamSpud">12-Mar-2024</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Active Rig Specification</span>
+                  <span class="param-val" id="repParamRig">BHEL 2000 HP Rig #14 (NHRK Rig-A)</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Total Target Depth (TD)</span>
+                  <span class="param-val" id="repParamTD">3,842.0 m TVD</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Pore Pressure Gradient</span>
+                  <span class="param-val" id="repParamPorePres">14.8 ppg (4,120 psi)</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Formation Fracture Gradient</span>
+                  <span class="param-val" id="repParamFracGrad">15.4 ppg</span>
+                </div>
+                <div class="param-item">
+                  <span class="param-lbl">Drilling Fluid Chemistry</span>
+                  <span class="param-val" id="repParamMudSystem">Glycol-PHPA High Performance WBM</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: REAL-TIME DRILLING MECHANICS & SCADA (8 TILES) -->
+            <div class="report-card card-border-cyan">
+              <div class="card-header-bar">
+                <div class="card-header-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <span>2. Real-Time Drilling Mechanics &amp; SCADA Telemetry</span>
+                </div>
+                <span class="card-badge badge-cyan">Live Sync (1s)</span>
+              </div>
+              <div class="telemetry-tiles-grid">
+                <div class="telemetry-tile t-tile-depth">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                    <span>DEPTH</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileDepth">2,501.3 m</div>
+                  <div class="t-tile-sub">+0.8 m / 5s</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-rop">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    <span>ROP</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileRop">12.6 m/hr</div>
+                  <div class="t-tile-sub">↑ 2.4% rate</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-wob">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>
+                    <span>WOB</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileWob">27.2 ton</div>
+                  <div class="t-tile-sub">↑ 1.1% load</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-torque">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    <span>TORQUE</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileTorque">263.6 kNm</div>
+                  <div class="t-tile-sub">↑ 3.2% torsion</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-rpm">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <span>RPM</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileRpm">108.2 rpm</div>
+                  <div class="t-tile-sub">Rotary drive</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-pump">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    <span>PUMP PRESSURE</span>
+                  </div>
+                  <div class="t-tile-val" id="repTilePump">3,841 psi</div>
+                  <div class="t-tile-sub">↑ 0.8% SPP</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-mud">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.5C12 2.5 5 11 5 16.5C5 20.09 7.91 23 11.5 23C15.09 23 18 20.09 18 16.5C18 11 12 2.5 12 2.5Z"/></svg>
+                    <span>MUD WEIGHT</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileMud">12.10 ppg</div>
+                  <div class="t-tile-sub">Weighted 1.45 SG</div>
+                </div>
+
+                <div class="telemetry-tile t-tile-flow">
+                  <div class="t-tile-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <span>FLOW RATE</span>
+                  </div>
+                  <div class="t-tile-val" id="repTileFlow">754.2 LPM</div>
+                  <div class="t-tile-sub">↑ 1.5% circulation</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3: SUBSURFACE STRATIGRAPHY & FORMATION INTERVALS -->
+            <div class="report-card card-span-2 card-border-emerald">
+              <div class="card-header-bar">
+                <div class="card-header-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                  <span>3. Subsurface Stratigraphy &amp; Geomechanical Formations Column</span>
+                </div>
+                <span class="card-badge badge-green">Assam-Arakan Basin Profile</span>
+              </div>
+              <div style="overflow-x: auto;">
+                <table class="report-data-table">
+                  <thead>
+                    <tr>
+                      <th>Formation Name</th>
+                      <th>Depth Interval</th>
+                      <th>Lithological Description &amp; Characteristics</th>
+                      <th>Pore Pres.</th>
+                      <th>Frac Grad.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reportStrataTbody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- CARD 4: AI HAZARD RISK EVALUATION -->
+            <div class="report-card card-border-amber">
+              <div class="card-header-bar">
+                <div class="card-header-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <span>4. AI Hazard Model &amp; Predictive Risk Evaluation</span>
+                </div>
+                <span class="card-badge badge-amber">ML Interlock Sync</span>
+              </div>
+              <div id="reportHazardsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <!-- CARD 5: CASING RECORD & BHA INTEGRITY -->
+            <div class="report-card card-border-purple">
+              <div class="card-header-bar">
+                <div class="card-header-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  <span>5. Casing Program &amp; Pressure Integrity Record</span>
+                </div>
+                <span class="card-badge badge-blue">API Standards</span>
+              </div>
+              <div style="overflow-x: auto;">
+                <table class="report-data-table">
+                  <thead>
+                    <tr>
+                      <th>Tubular String</th>
+                      <th>Depth</th>
+                      <th>Specification</th>
+                      <th>Pressure Test</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reportCasingTbody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- CARD 6: SUPERVISORY SIGN-OFF & REGULATORY COMPLIANCE -->
+            <div class="report-card card-span-2 card-border-pink">
+              <div class="card-header-bar">
+                <div class="card-header-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  <span>6. Supervisory Verification, Regulatory Compliance &amp; Sign-off</span>
+                </div>
+                <span class="card-badge badge-green">Audit Verified</span>
+              </div>
+              <div class="signoff-grid">
+                <div class="signoff-box">
+                  <span class="signoff-role">PREPARED BY (RIG FLOOR LEAD)</span>
+                  <span class="signoff-name" id="repSignEngineer">Er. Rakesh Sharma</span>
+                  <span class="signoff-dept">Lead Operations Engineer • Nahorkatiya Rig-A</span>
+                  <div class="signoff-stamp">✓ Shift Telemetry Certified</div>
+                </div>
+
+                <div class="signoff-box">
+                  <span class="signoff-role">AUTHORIZED BY (SUPERVISOR)</span>
+                  <span class="signoff-name" id="repSignSupervisor">Er. Amitav Barua</span>
+                  <span class="signoff-dept">Drilling Superintendent • DGBOI Basin HQ</span>
+                  <div class="signoff-stamp">✓ Rotary Permit Cleared</div>
+                </div>
+
+                <div class="signoff-box">
+                  <span class="signoff-role">CORPORATE COMPLIANCE</span>
+                  <span class="signoff-name">Oil India Limited, Duliajan HQ</span>
+                  <span class="signoff-dept">Directorate General of Hydrocarbons (DGH) Gateway</span>
+                  <div class="signoff-stamp">✓ DGH Submission Ready</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
 
     </main>
   </div>
@@ -3782,6 +4146,7 @@
   <script src="js/authEngine.js"></script>
   <script src="js/analyticsGraphs.js"></script>
   <script src="js/ragChatbot.js"></script>
+  <script src="js/reportsEngine.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
