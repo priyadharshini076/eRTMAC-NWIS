@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const navCorrelation = document.getElementById("navCorrelation");
   const navDrillEngineer = document.getElementById("navDrillEngineer");
   const navReports = document.getElementById("navReports");
+  const navRagBot = document.getElementById("navRagBot");
   const pageRiskAssessment = document.getElementById("pageRiskAssessment");
   const pageAlerts = document.getElementById("pageAlerts");
   const pageCorrelation = document.getElementById("pageCorrelation");
   const pageMap = document.getElementById("pageMap");
+  const pageRagBot = document.getElementById("pageRagBot");
 
   // Populate Dropdown
   function populateWellDropdown(filter = "ALL") {
@@ -586,6 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (pageCorrelation) pageCorrelation.classList.add("hidden");
     if (pageMap) pageMap.classList.add("hidden");
     if (pageDrillEngineer) pageDrillEngineer.classList.add("hidden");
+    if (pageRagBot) pageRagBot.classList.add("hidden");
 
     // Clear active navigation styles
     if (navRiskAssessment) navRiskAssessment.classList.remove("active");
@@ -594,6 +597,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (navMap) navMap.classList.remove("active");
     if (navDrillEngineer) navDrillEngineer.classList.remove("active");
     if (navReports) navReports.classList.remove("active");
+    if (navRagBot) navRagBot.classList.remove("active");
 
     if (target === "assessment") {
       if (navRiskAssessment) navRiskAssessment.classList.add("active");
@@ -628,6 +632,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.initDrillingEngine) {
         window.initDrillingEngine();
       }
+    } else if (target === "ragbot") {
+      if (navRagBot) navRagBot.classList.add("active");
+      if (pageRagBot) pageRagBot.classList.remove("hidden");
     } else {
       showToast(`Switched view to ${target.toUpperCase()}`);
     }
@@ -640,6 +647,13 @@ document.addEventListener("DOMContentLoaded", () => {
     navMap.addEventListener("click", (e) => {
       e.preventDefault();
       switchTab("map");
+    });
+  }
+
+  if (navRagBot) {
+    navRagBot.addEventListener("click", (e) => {
+      e.preventDefault();
+      switchTab("ragbot");
     });
   }
 

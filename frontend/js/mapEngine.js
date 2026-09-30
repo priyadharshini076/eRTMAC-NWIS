@@ -65,8 +65,8 @@
         })
       };
 
-      // Default to Voyager: world-class geographic clarity & crisp high-DPI contrast
-      currentBasemapLayer = baseTileLayers.voyager.addTo(leafletMap);
+      // Default to OSM
+      currentBasemapLayer = baseTileLayers.osm.addTo(leafletMap);
 
       // Layer groups for markers and overlays
       markersLayer = L.layerGroup().addTo(leafletMap);
@@ -328,6 +328,33 @@
         document.querySelectorAll(".offset-tab").forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
         const tabKey = tab.getAttribute("data-tab");
+
+        const techSpecsTitle = document.getElementById("dossierDatesHeader");
+        const techSpecsGrid = document.querySelector(".technical-specs-grid");
+        const curveChart = document.querySelector(".drilling-curve-chart-card");
+        const stratTops = document.querySelector(".stratigraphic-tops-card");
+        const nptCard = document.getElementById("nptEventsCard");
+
+        if (techSpecsTitle) techSpecsTitle.style.display = "none";
+        if (techSpecsGrid) techSpecsGrid.style.display = "none";
+        if (curveChart) curveChart.style.display = "none";
+        if (stratTops) stratTops.style.display = "none";
+        if (nptCard) nptCard.style.display = "none";
+
+        if (tabKey === "overview") {
+          if (techSpecsTitle) techSpecsTitle.style.display = "block";
+          if (techSpecsGrid) techSpecsGrid.style.display = "grid";
+          if (curveChart) curveChart.style.display = "block";
+          if (stratTops) stratTops.style.display = "block";
+          if (nptCard) nptCard.style.display = "block";
+        } else if (tabKey === "drilling") {
+          if (curveChart) curveChart.style.display = "block";
+        } else if (tabKey === "geology") {
+          if (stratTops) stratTops.style.display = "block";
+        } else if (tabKey === "npt") {
+          if (nptCard) nptCard.style.display = "block";
+          if (curveChart) curveChart.style.display = "block"; // Keep curve chart in NPT as it contains NPT markers
+        }
       });
     });
   }
@@ -629,10 +656,19 @@
     // Stratigraphic Formation Tops Table
     renderFormationTopsTable(well.formation_tops || []);
 
+    // NPT Events List
+    renderNptEvents(well.npt_events || []);
+
     // Archive Ref
     const refElem = document.getElementById("dossierArchiveRef");
     if (refElem) {
       refElem.textContent = `OIL Archive Ref: ${well.archive_ref || "NHRK-98-COMP-2019"}`;
+    }
+
+    // Trigger tab logic to show/hide correct sections
+    const activeTab = document.querySelector(".offset-tab.active");
+    if (activeTab) {
+      activeTab.click();
     }
   }
 
@@ -764,6 +800,29 @@
       `
       )
       .join("");
+  }
+
+  // Render NPT Events
+  function renderNptEvents(events) {
+    const list = document.getElementById("nptEventsList");
+    if (!list) return;
+
+    if (!events || events.length === 0) {
+      list.innerHTML = `<div style="padding: 10px; color: #64748b; font-size: 0.85rem;">No significant NPT events recorded.</div>`;
+      return;
+    }
+
+    list.innerHTML = events.map(ev => {
+      const isStuck = ev.label.includes("Stuck");
+      const bg = isStuck ? "rgba(239, 68, 68, 0.1)" : "rgba(245, 158, 11, 0.1)";
+      const border = isStuck ? "#ef4444" : "#f59e0b";
+      return `
+        <div style="background: ${bg}; border-left: 4px solid ${border}; padding: 12px; border-radius: 6px;">
+          <div style="font-weight: 700; color: ${border}; font-size: 0.85rem; margin-bottom: 4px;">Day ${ev.day} @ ${ev.depth} m</div>
+          <div style="color: #0f172a; font-size: 0.9rem;">${ev.label}</div>
+        </div>
+      `;
+    }).join("");
   }
 
   // Render Bottom 4 KPI Cards Matching Screenshot

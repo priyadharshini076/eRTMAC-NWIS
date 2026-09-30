@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data"
-load_dotenv()
+load_dotenv(ROOT / ".env")
 
 class Settings:
     DATABASE_URL = os.getenv("DATABASE_URL")

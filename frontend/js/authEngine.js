@@ -228,7 +228,7 @@
       if (window.switchAppTab) {
         // All pages remain visible for all 3 roles as requested
         // Default landing can be alerts/assessment or previous
-        window.switchAppTab("alerts");
+        window.switchAppTab("engineer");
       }
     } catch (err) {
       console.error("Login request error:", err);
@@ -253,6 +253,9 @@
         document.body.classList.remove("login-mode");
         if (window.showToast) {
           window.showToast(`Logged in as ${mockUser.full_name} (${mockUser.role_title})`);
+        }
+        if (window.switchAppTab) {
+          window.switchAppTab("engineer");
         }
       } else {
         showErrorMessage("Unable to connect to auth server or invalid credentials.");
