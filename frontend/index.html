@@ -1155,56 +1155,81 @@
           <div class="analytics-graphs-grid">
             
             <!-- GRAPH 1: GEOMECHANICAL SAFE OPERATING WINDOW -->
-            <div class="graph-card">
+            <div class="graph-card" id="graphCardGeomechanics">
               <div class="graph-card-header">
                 <div>
-                  <div class="graph-card-title">Geomechanical Safe Operating Window (PPG vs Depth)</div>
+                  <div class="graph-card-title">
+                    <span>Geomechanical Safe Operating Window (PPG vs Depth)</span>
+                  </div>
                   <div class="graph-card-sub">Pore Pressure, Collapse Gradient, Mud Weights &amp; Fracture Limit</div>
                 </div>
-                <span class="graph-tag">GEOMECHANICS</span>
+                <div class="graph-header-meta">
+                  <span class="graph-live-badge"><span class="live-dot-pulse"></span>LIVE</span>
+                  <span class="graph-live-val" id="liveGeoVal">Depth: <strong>3,420.0 m</strong> • Pore: <strong>11.82 PPG</strong></span>
+                  <span class="graph-tag">GEOMECHANICS</span>
+                </div>
               </div>
-              <div class="graph-canvas-container">
-                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none">
-                  <!-- Grid Lines -->
-                  <line x1="50" y1="20" x2="480" y2="20" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="50" y1="65" x2="480" y2="65" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="50" y1="110" x2="480" y2="110" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="50" y1="155" x2="480" y2="155" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="50" y1="200" x2="480" y2="200" stroke="#475569" stroke-width="1.2"/>
+              <div class="graph-canvas-container" id="graphContainerGeo">
+                <div class="graph-crosshair-line hidden" id="crosshairGeo"></div>
+                <div class="graph-interactive-tooltip hidden" id="tooltipGeo"></div>
+                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none" id="svgGeomechanics">
+                  <defs>
+                    <linearGradient id="geoSafeWindowGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#10b981" stop-opacity="0.18"/>
+                      <stop offset="100%" stop-color="#10b981" stop-opacity="0.04"/>
+                    </linearGradient>
+                    <linearGradient id="geoHazardGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.16"/>
+                      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.03"/>
+                    </linearGradient>
+                  </defs>
 
-                  <!-- Safe Operating Window Shaded Area -->
-                  <polygon points="120,20 380,20 410,200 190,200" fill="rgba(16, 185, 129, 0.08)" stroke="none"/>
+                  <!-- Crisp Light Grid Lines -->
+                  <line x1="50" y1="25" x2="480" y2="25" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="50" y1="68" x2="480" y2="68" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="50" y1="112" x2="480" y2="112" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="50" y1="156" x2="480" y2="156" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="50" y1="200" x2="480" y2="200" stroke="#cbd5e1" stroke-width="1.2"/>
 
-                  <!-- Fracture Gradient (Blue) -->
-                  <path d="M 380 20 Q 395 100 410 200" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+                  <!-- Safe Operating Window Shaded Envelope -->
+                  <polygon points="120,25 380,25 410,200 190,200" fill="url(#geoSafeWindowGrad)"/>
+
+                  <!-- Overpressure Under-balanced Hazard Zone -->
+                  <polygon points="120,25 220,25 220,200 190,200" fill="url(#geoHazardGrad)"/>
+
+                  <!-- Fracture Gradient (Blue ceiling) -->
+                  <path d="M 380 25 Q 395 105 410 200" fill="none" stroke="#2563eb" stroke-width="2.5"/>
                   
-                  <!-- Planned Mud Weight 12.1 PPG (Emerald) -->
-                  <path d="M 280 20 L 285 200" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,3"/>
+                  <!-- Target / Authorized Mud Weight 12.1 PPG (Emerald dashed) -->
+                  <path d="M 282 25 L 286 200" fill="none" stroke="#059669" stroke-width="2.2" stroke-dasharray="4,3"/>
 
-                  <!-- Current Mud Weight 11.4 PPG (Amber) -->
-                  <path d="M 220 20 L 220 200" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                  <!-- Current Mud Weight 11.4 PPG (Amber warning line) -->
+                  <path d="M 220 25 L 220 200" fill="none" stroke="#d97706" stroke-width="2.2"/>
 
-                  <!-- Pore Pressure Gradient (Red) -->
-                  <path d="M 120 20 Q 140 100 245 170 T 260 200" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+                  <!-- Pore Pressure Gradient Curve (Vivid Red) -->
+                  <path d="M 120 25 Q 140 100 246 168 T 265 200" fill="none" stroke="#dc2626" stroke-width="2.8"/>
 
-                  <!-- Current Bit Depth Indicator at 3,420 m (Line at Y=170) -->
-                  <line x1="50" y1="170" x2="480" y2="170" stroke="#f43f5e" stroke-width="1.2" stroke-dasharray="2,2"/>
-                  <circle cx="220" cy="170" r="4" fill="#f59e0b"/>
-                  <circle cx="245" cy="170" r="5" fill="#ef4444"/>
-                  <circle cx="283" cy="170" r="4" fill="#10b981"/>
+                  <!-- Real-time Bit Depth Indicator Line at 3,420 m (Y=168) -->
+                  <line x1="50" y1="168" x2="480" y2="168" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2" id="geoBitDepthLine"/>
+                  
+                  <!-- Beacons on Current Depth Line -->
+                  <circle cx="220" cy="168" r="4.5" fill="#d97706" stroke="#ffffff" stroke-width="1.5"/>
+                  <circle cx="246" cy="168" r="10" stroke="#dc2626" stroke-width="1.5" fill="none" class="svg-pulse-ring"/>
+                  <circle cx="246" cy="168" r="5.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"/>
+                  <circle cx="285" cy="168" r="4.5" fill="#059669" stroke="#ffffff" stroke-width="1.5"/>
 
-                  <!-- Y-Axis Labels (Depth m) -->
-                  <text x="12" y="24" fill="#94a3b8" font-size="10">2,000 m</text>
-                  <text x="12" y="70" fill="#94a3b8" font-size="10">2,500 m</text>
-                  <text x="12" y="115" fill="#94a3b8" font-size="10">3,000 m</text>
-                  <text x="12" y="160" fill="#f43f5e" font-size="10" font-weight="bold">3,420 m</text>
-                  <text x="12" y="204" fill="#94a3b8" font-size="10">3,850 m</text>
+                  <!-- High Contrast Y-Axis Labels (Depth m) -->
+                  <text x="10" y="29" fill="#475569" font-size="10" font-weight="600">2,000 m</text>
+                  <text x="10" y="72" fill="#475569" font-size="10" font-weight="600">2,500 m</text>
+                  <text x="10" y="116" fill="#475569" font-size="10" font-weight="600">3,000 m</text>
+                  <text x="10" y="160" fill="#dc2626" font-size="10" font-weight="800">3,420 m</text>
+                  <text x="10" y="204" fill="#475569" font-size="10" font-weight="600">3,850 m</text>
 
-                  <!-- X-Axis Labels (PPG) -->
-                  <text x="110" y="222" fill="#94a3b8" font-size="10">9.5</text>
-                  <text x="210" y="222" fill="#f59e0b" font-size="10">11.4</text>
-                  <text x="270" y="222" fill="#10b981" font-size="10">12.1</text>
-                  <text x="395" y="222" fill="#38bdf8" font-size="10">13.5</text>
+                  <!-- High Contrast X-Axis Labels (PPG) -->
+                  <text x="110" y="220" fill="#475569" font-size="10.5" font-weight="700">9.5 PPG</text>
+                  <text x="204" y="220" fill="#d97706" font-size="10.5" font-weight="800">11.4 PPG</text>
+                  <text x="270" y="220" fill="#059669" font-size="10.5" font-weight="800">12.1 PPG</text>
+                  <text x="395" y="220" fill="#2563eb" font-size="10.5" font-weight="800">13.5 PPG</text>
                 </svg>
               </div>
               <div class="graph-legend-row">
@@ -1216,46 +1241,69 @@
             </div>
 
             <!-- GRAPH 2: OFFSET WELL INFLUX CORRELATION -->
-            <div class="graph-card">
+            <div class="graph-card" id="graphCardOffset">
               <div class="graph-card-header">
                 <div>
-                  <div class="graph-card-title">Offset Well Correlation (NHRK-104 vs NHRK-98 Kick)</div>
+                  <div class="graph-card-title">
+                    <span>Offset Well Correlation (NHRK-104 vs NHRK-98 Kick)</span>
+                  </div>
                   <div class="graph-card-sub">Predictive alignment with historical kick event at 3,422 m</div>
                 </div>
-                <span class="graph-tag">OFFSET AI</span>
+                <div class="graph-header-meta">
+                  <span class="graph-live-badge"><span class="live-dot-pulse"></span>LIVE STREAM</span>
+                  <span class="graph-live-val" id="liveGasVal">Live Gas: <strong>524 units</strong> • <span style="color:#dc2626; font-weight:700;">+12.4 u/hr</span></span>
+                  <span class="graph-tag">OFFSET AI</span>
+                </div>
               </div>
-              <div class="graph-canvas-container">
-                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none">
-                  <!-- Grid -->
-                  <line x1="40" y1="30" x2="480" y2="30" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="80" x2="480" y2="80" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="130" x2="480" y2="130" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="180" x2="480" y2="180" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
+              <div class="graph-canvas-container" id="graphContainerOffset">
+                <div class="graph-crosshair-line hidden" id="crosshairOffset"></div>
+                <div class="graph-interactive-tooltip hidden" id="tooltipOffset"></div>
+                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none" id="svgOffsetWell">
+                  <defs>
+                    <linearGradient id="offsetGasGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.22"/>
+                      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.02"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Light Grid -->
+                  <line x1="45" y1="35" x2="480" y2="35" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="80" x2="480" y2="80" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="125" x2="480" y2="125" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="170" x2="480" y2="170" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="195" x2="480" y2="195" stroke="#cbd5e1" stroke-width="1.2"/>
+
+                  <!-- Shaded Area Under Current Well Sensor Curve -->
+                  <path d="M 50 172 Q 150 168 240 162 T 350 142 T 390 90 L 390 195 L 50 195 Z" fill="url(#offsetGasGrad)"/>
 
                   <!-- NHRK-98 Historical Kick Curve (Red Dashed) -->
-                  <path d="M 50 170 Q 150 165 240 160 T 350 145 T 410 40 L 460 35" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3"/>
+                  <path d="M 50 170 Q 150 165 240 160 T 350 145 T 410 42 L 465 36" fill="none" stroke="#dc2626" stroke-width="2.2" stroke-dasharray="5,3"/>
 
-                  <!-- NHRK-104 Real-Time Sensor Trend (Cyan Solid) -->
-                  <path d="M 50 172 Q 150 168 240 162 T 350 142 T 390 90" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                  <!-- NHRK-104 Real-Time Sensor Trend (Vibrant Sky Blue Solid) -->
+                  <path d="M 50 172 Q 150 168 240 162 T 350 142 T 390 90" fill="none" stroke="#0284c7" stroke-width="3.2"/>
                   
-                  <!-- Current Depth marker -->
-                  <circle cx="390" cy="90" r="5" fill="#06b6d4"/>
-                  <line x1="390" y1="30" x2="390" y2="200" stroke="#06b6d4" stroke-dasharray="2,2" stroke-width="1.2"/>
-                  <text x="360" y="215" fill="#06b6d4" font-size="10" font-weight="bold">Current Bit (3,420m)</text>
+                  <!-- Current Depth marker & Vertical Scan Line -->
+                  <line x1="390" y1="35" x2="390" y2="195" stroke="#0284c7" stroke-dasharray="3,2" stroke-width="1.5"/>
+                  <circle cx="390" cy="90" r="10" stroke="#0284c7" stroke-width="1.5" fill="none" class="svg-pulse-ring"/>
+                  <circle id="offsetLivePoint" cx="390" cy="90" r="5.5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+
+                  <!-- Current Bit Depth Tag Box -->
+                  <rect x="330" y="200" width="120" height="18" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="0.8"/>
+                  <text x="338" y="213" fill="#0369a1" font-size="9.5" font-weight="800">Current Bit (3,420 m)</text>
 
                   <!-- Kick Zone Warning Box -->
-                  <rect x="375" y="32" width="60" height="26" rx="4" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444"/>
-                  <text x="382" y="49" fill="#fca5a5" font-size="9" font-weight="bold">KICK ZONE</text>
+                  <rect x="375" y="32" width="75" height="28" rx="5" fill="#fee2e2" stroke="#ef4444" stroke-width="1.2"/>
+                  <text x="383" y="50" fill="#b91c1c" font-size="10" font-weight="800">KICK ZONE</text>
 
-                  <!-- Labels -->
-                  <text x="10" y="45" fill="#94a3b8" font-size="9">800u</text>
-                  <text x="10" y="95" fill="#94a3b8" font-size="9">500u</text>
-                  <text x="10" y="145" fill="#94a3b8" font-size="9">200u</text>
-                  <text x="10" y="185" fill="#94a3b8" font-size="9">50u</text>
-                  <text x="60" y="232" fill="#94a3b8" font-size="9">3,380 m</text>
-                  <text x="180" y="232" fill="#94a3b8" font-size="9">3,400 m</text>
-                  <text x="300" y="232" fill="#94a3b8" font-size="9">3,415 m</text>
-                  <text x="430" y="232" fill="#94a3b8" font-size="9">3,430 m</text>
+                  <!-- High Contrast Labels -->
+                  <text x="12" y="40" fill="#475569" font-size="9.5" font-weight="700">800 u</text>
+                  <text x="12" y="85" fill="#475569" font-size="9.5" font-weight="700">500 u</text>
+                  <text x="12" y="130" fill="#475569" font-size="9.5" font-weight="700">200 u</text>
+                  <text x="12" y="174" fill="#475569" font-size="9.5" font-weight="700">50 u</text>
+                  <text x="50" y="222" fill="#475569" font-size="9.5" font-weight="700">3,380 m</text>
+                  <text x="160" y="222" fill="#475569" font-size="9.5" font-weight="700">3,400 m</text>
+                  <text x="275" y="222" fill="#475569" font-size="9.5" font-weight="700">3,415 m</text>
+                  <text x="410" y="222" fill="#475569" font-size="9.5" font-weight="700">3,430 m</text>
                 </svg>
               </div>
               <div class="graph-legend-row">
@@ -1265,46 +1313,72 @@
             </div>
 
             <!-- GRAPH 3: 24-HOUR MULTI-HAZARD ML RISK PROBABILITY -->
-            <div class="graph-card">
+            <div class="graph-card" id="graphCardRiskProgression">
               <div class="graph-card-header">
                 <div>
-                  <div class="graph-card-title">24-Hour ML Multi-Hazard Probability Progression</div>
+                  <div class="graph-card-title">
+                    <span>24-Hour ML Multi-Hazard Probability Progression</span>
+                  </div>
                   <div class="graph-card-sub">Continuous dynamic risk trajectory across last 24 drilling hours</div>
                 </div>
-                <span class="graph-tag">TIME SERIES</span>
+                <div class="graph-header-meta">
+                  <span class="graph-live-badge"><span class="live-dot-pulse"></span>ACTIVE ML</span>
+                  <span class="graph-live-val" id="liveRiskVal">Gas Kick: <strong style="color:#dc2626;">84.6%</strong> (CRITICAL)</span>
+                  <span class="graph-tag">TIME SERIES</span>
+                </div>
               </div>
-              <div class="graph-canvas-container">
-                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none">
-                  <!-- Grid -->
-                  <line x1="40" y1="30" x2="480" y2="30" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="80" x2="480" y2="80" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="130" x2="480" y2="130" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="180" x2="480" y2="180" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
+              <div class="graph-canvas-container" id="graphContainerRisk">
+                <div class="graph-crosshair-line hidden" id="crosshairRisk"></div>
+                <div class="graph-interactive-tooltip hidden" id="tooltipRisk"></div>
+                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none" id="svgRiskProgression">
+                  <defs>
+                    <linearGradient id="riskAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#dc2626" stop-opacity="0.22"/>
+                      <stop offset="100%" stop-color="#dc2626" stop-opacity="0.02"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Critical Alarm Band (>75%) -->
+                  <rect x="40" y="20" width="440" height="45" fill="rgba(244, 63, 94, 0.05)"/>
+
+                  <!-- Light Grid Lines -->
+                  <line x1="40" y1="35" x2="480" y2="35" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="40" y1="75" x2="480" y2="75" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="40" y1="115" x2="480" y2="115" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="40" y1="155" x2="480" y2="155" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="40" y1="195" x2="480" y2="195" stroke="#cbd5e1" stroke-width="1.2"/>
 
                   <!-- Gas Kick Probability (Red Shaded Area) -->
-                  <polygon points="50,180 50,140 140,135 230,115 320,80 410,48 460,42 460,180" fill="rgba(239, 68, 68, 0.15)"/>
-                  <path d="M 50 140 Q 140 135 230 115 T 320 80 T 410 48 L 460 42" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+                  <polygon points="50,195 50,140 140,135 230,115 320,80 410,48 460,42 460,195" fill="url(#riskAreaGrad)"/>
+                  <path d="M 50 140 Q 140 135 230 115 T 320 80 T 410 48 L 460 42" fill="none" stroke="#dc2626" stroke-width="2.8"/>
 
-                  <!-- Stuck Pipe Probability (Amber) -->
-                  <path d="M 50 155 Q 150 150 250 135 T 370 110 L 460 95" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                  <!-- Stuck Pipe Probability (Amber Curve) -->
+                  <path d="M 50 155 Q 150 150 250 135 T 370 110 L 460 95" fill="none" stroke="#d97706" stroke-width="2.2"/>
 
-                  <!-- Lost Circulation Probability (Purple) -->
-                  <path d="M 50 165 Q 150 160 260 140 T 380 125 L 460 115" fill="none" stroke="#a855f7" stroke-width="2"/>
+                  <!-- Lost Circulation Probability (Purple Curve) -->
+                  <path d="M 50 165 Q 150 160 260 140 T 380 125 L 460 115" fill="none" stroke="#9333ea" stroke-width="2.2"/>
 
                   <!-- Critical Threshold Line (75%) -->
-                  <line x1="40" y1="65" x2="480" y2="65" stroke="#f43f5e" stroke-dasharray="4,2" stroke-width="1.2"/>
-                  <text x="390" y="60" fill="#f43f5e" font-size="9" font-weight="bold">CRITICAL THRESHOLD (75%)</text>
+                  <line x1="40" y1="65" x2="480" y2="65" stroke="#e11d48" stroke-dasharray="4,2" stroke-width="1.5"/>
+                  <rect x="330" y="47" width="145" height="17" rx="3.5" fill="#ffe4e6" stroke="#f43f5e" stroke-width="0.8"/>
+                  <text x="336" y="59" fill="#9f1239" font-size="9" font-weight="800">CRITICAL THRESHOLD (75%)</text>
 
-                  <!-- Labels -->
-                  <text x="10" y="35" fill="#94a3b8" font-size="9">100%</text>
-                  <text x="10" y="85" fill="#94a3b8" font-size="9">70%</text>
-                  <text x="10" y="135" fill="#94a3b8" font-size="9">40%</text>
-                  <text x="10" y="185" fill="#94a3b8" font-size="9">10%</text>
-                  <text x="50" y="210" fill="#94a3b8" font-size="9">T-24h</text>
-                  <text x="150" y="210" fill="#94a3b8" font-size="9">T-18h</text>
-                  <text x="250" y="210" fill="#94a3b8" font-size="9">T-12h</text>
-                  <text x="350" y="210" fill="#94a3b8" font-size="9">T-6h</text>
-                  <text x="445" y="210" fill="#94a3b8" font-size="9">NOW</text>
+                  <!-- NOW Live Markers -->
+                  <circle cx="460" cy="42" r="10" stroke="#dc2626" stroke-width="1.5" fill="none" class="svg-pulse-ring"/>
+                  <circle cx="460" cy="42" r="5" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"/>
+                  <circle cx="460" cy="95" r="4.5" fill="#d97706" stroke="#ffffff" stroke-width="1.5"/>
+                  <circle cx="460" cy="115" r="4.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.5"/>
+
+                  <!-- High Contrast Labels -->
+                  <text x="10" y="39" fill="#475569" font-size="9.5" font-weight="700">100%</text>
+                  <text x="10" y="79" fill="#475569" font-size="9.5" font-weight="700">70%</text>
+                  <text x="10" y="119" fill="#475569" font-size="9.5" font-weight="700">40%</text>
+                  <text x="10" y="159" fill="#475569" font-size="9.5" font-weight="700">10%</text>
+                  <text x="50" y="215" fill="#475569" font-size="9.5" font-weight="700">T-24h</text>
+                  <text x="150" y="215" fill="#475569" font-size="9.5" font-weight="700">T-18h</text>
+                  <text x="250" y="215" fill="#475569" font-size="9.5" font-weight="700">T-12h</text>
+                  <text x="350" y="215" fill="#475569" font-size="9.5" font-weight="700">T-6h</text>
+                  <text x="442" y="215" fill="#0f172a" font-size="10" font-weight="800">NOW</text>
                 </svg>
               </div>
               <div class="graph-legend-row">
@@ -1315,46 +1389,69 @@
             </div>
 
             <!-- GRAPH 4: APWD / ECD DYNAMIC HYDRAULICS ENVELOPE -->
-            <div class="graph-card">
+            <div class="graph-card" id="graphCardHydraulics">
               <div class="graph-card-header">
                 <div>
-                  <div class="graph-card-title">Dynamic ECD &amp; Annular Friction Log (APWD)</div>
+                  <div class="graph-card-title">
+                    <span>Dynamic ECD &amp; Annular Friction Log (APWD)</span>
+                  </div>
                   <div class="graph-card-sub">Hydraulic safety margin between Influx pore pressure and Fracture limit</div>
                 </div>
-                <span class="graph-tag">HYDRAULICS</span>
+                <div class="graph-header-meta">
+                  <span class="graph-live-badge"><span class="live-dot-pulse"></span>APWD TELEMETRY</span>
+                  <span class="graph-live-val" id="liveEcdVal">Flow: <strong>754 LPM</strong> • ECD: <strong>12.38 PPG</strong></span>
+                  <span class="graph-tag">HYDRAULICS</span>
+                </div>
               </div>
-              <div class="graph-canvas-container">
-                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none">
-                  <!-- Grid -->
-                  <line x1="40" y1="30" x2="480" y2="30" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="80" x2="480" y2="80" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="130" x2="480" y2="130" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
-                  <line x1="40" y1="180" x2="480" y2="180" stroke="#334155" stroke-dasharray="3,3" stroke-width="0.8"/>
+              <div class="graph-canvas-container" id="graphContainerHydraulics">
+                <div class="graph-crosshair-line hidden" id="crosshairHydraulics"></div>
+                <div class="graph-interactive-tooltip hidden" id="tooltipHydraulics"></div>
+                <svg viewBox="0 0 500 240" class="analytics-svg" preserveAspectRatio="none" id="svgHydraulics">
+                  <defs>
+                    <linearGradient id="ecdSafeWindowGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#10b981" stop-opacity="0.14"/>
+                      <stop offset="100%" stop-color="#10b981" stop-opacity="0.03"/>
+                    </linearGradient>
+                  </defs>
 
-                  <!-- Upper Fracture Limit (Blue line) -->
-                  <line x1="40" y1="45" x2="480" y2="45" stroke="#38bdf8" stroke-width="2"/>
-                  <text x="50" y="40" fill="#38bdf8" font-size="9">Fracture Limit (13.4 PPG)</text>
+                  <!-- Safe Hydraulic Window (between 11.8 PPG and 13.4 PPG) -->
+                  <rect x="45" y="45" width="435" height="120" fill="url(#ecdSafeWindowGrad)"/>
 
-                  <!-- Lower Influx Limit (Red line) -->
-                  <line x1="40" y1="165" x2="480" y2="165" stroke="#ef4444" stroke-width="2"/>
-                  <text x="50" y="160" fill="#ef4444" font-size="9">Pore Influx Bound (11.8 PPG)</text>
+                  <!-- Light Grid -->
+                  <line x1="45" y1="35" x2="480" y2="35" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="80" x2="480" y2="80" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="125" x2="480" y2="125" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="170" x2="480" y2="170" stroke="#e2e8f0" stroke-dasharray="3,3" stroke-width="1"/>
+                  <line x1="45" y1="195" x2="480" y2="195" stroke="#cbd5e1" stroke-width="1.2"/>
 
-                  <!-- Dynamic ECD Curve with Flow (Green curve) -->
-                  <path d="M 50 145 Q 150 135 250 120 T 360 100 L 460 82" fill="none" stroke="#10b981" stroke-width="3"/>
+                  <!-- Upper Fracture Limit (Blue ceiling) -->
+                  <line x1="45" y1="45" x2="480" y2="45" stroke="#2563eb" stroke-width="2.2"/>
+                  <text x="55" y="40" fill="#2563eb" font-size="9.5" font-weight="700">Upper Fracture Limit (13.4 PPG)</text>
+
+                  <!-- Lower Influx Limit (Red floor) -->
+                  <line x1="45" y1="165" x2="480" y2="165" stroke="#dc2626" stroke-width="2.2"/>
+                  <text x="55" y="160" fill="#dc2626" font-size="9.5" font-weight="700">Pore Influx Bound (11.8 PPG)</text>
+
+                  <!-- Dynamic ECD Curve with Flow (Emerald Green Curve) -->
+                  <path d="M 50 145 Q 150 135 250 120 T 360 100 L 460 82" fill="none" stroke="#059669" stroke-width="3.2"/>
                   
-                  <!-- Static Mud Weight (Orange dashed) -->
-                  <line x1="40" y1="145" x2="480" y2="145" stroke="#f59e0b" stroke-dasharray="4,4" stroke-width="1.8"/>
-                  <text x="350" y="140" fill="#f59e0b" font-size="9">Static Mud Weight (12.1 PPG)</text>
+                  <!-- Static Mud Weight (Amber Dashed) -->
+                  <line x1="45" y1="145" x2="480" y2="145" stroke="#d97706" stroke-dasharray="4,4" stroke-width="1.8"/>
+                  <text x="340" y="140" fill="#d97706" font-size="9.5" font-weight="700">Static Mud Weight (12.1 PPG)</text>
 
-                  <!-- Operating Point Circle at 754 LPM -->
-                  <circle cx="360" cy="100" r="5" fill="#10b981"/>
-                  <text x="320" y="92" fill="#6ee7b7" font-size="9" font-weight="bold">ECD: 12.38 PPG @ 754 LPM</text>
+                  <!-- Operating Point Beacon at 754 LPM -->
+                  <circle cx="360" cy="100" r="10" stroke="#059669" stroke-width="1.5" fill="none" class="svg-pulse-ring"/>
+                  <circle id="ecdLivePoint" cx="360" cy="100" r="5.5" fill="#059669" stroke="#ffffff" stroke-width="1.5"/>
+                  
+                  <!-- Operating Point Callout Tag -->
+                  <rect x="310" y="78" width="146" height="18" rx="4" fill="#d1fae5" stroke="#059669" stroke-width="0.8"/>
+                  <text x="317" y="91" fill="#065f46" font-size="9.5" font-weight="800">ECD: 12.38 PPG @ 754 LPM</text>
 
-                  <!-- Labels -->
-                  <text x="60" y="210" fill="#94a3b8" font-size="9">500 LPM</text>
-                  <text x="180" y="210" fill="#94a3b8" font-size="9">650 LPM</text>
-                  <text x="310" y="210" fill="#94a3b8" font-size="9">750 LPM</text>
-                  <text x="430" y="210" fill="#94a3b8" font-size="9">900 LPM</text>
+                  <!-- High Contrast Labels -->
+                  <text x="60" y="215" fill="#475569" font-size="9.5" font-weight="700">500 LPM</text>
+                  <text x="180" y="215" fill="#475569" font-size="9.5" font-weight="700">650 LPM</text>
+                  <text x="310" y="215" fill="#475569" font-size="9.5" font-weight="700">750 LPM</text>
+                  <text x="430" y="215" fill="#475569" font-size="9.5" font-weight="700">900 LPM</text>
                 </svg>
               </div>
               <div class="graph-legend-row">
@@ -3719,6 +3816,7 @@
   <script src="js/correlationEngine.js"></script>
   <script src="js/mapEngine.js"></script>
   <script src="js/authEngine.js"></script>
+  <script src="js/analyticsGraphs.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
