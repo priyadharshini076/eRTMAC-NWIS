@@ -51,10 +51,28 @@ class DrillingOperationsEngine {
 
   init() {
     this.bindDOM();
+    this.init3DModel();
     this.initDrillSimulationFx();
     this.initWebSocket();
     this.renderMetrics();
     this.renderDrillingFx();
+  }
+
+  init3DModel() {
+    const vp = document.getElementById("threeDrillViewport");
+    if (vp && typeof Drilling3DModel !== "undefined") {
+      try {
+        if (!window.drilling3dInstance) {
+          window.drilling3dInstance = new Drilling3DModel("threeDrillViewport");
+        }
+        window.drilling3dInstance.setView(this.currentView || "subsurface");
+        setTimeout(() => {
+          if (window.drilling3dInstance) window.drilling3dInstance.onResize();
+        }, 150);
+      } catch (e) {
+        console.warn("3D WebGL Model init fallback:", e);
+      }
+    }
   }
 
   bindDOM() {
@@ -106,7 +124,7 @@ class DrillingOperationsEngine {
         badge2: { text: "Critical Friction", class: "amber" },
         showDepth: false,
         showStrata: false,
-        overlay: null,
+        overlay: overlayThermal,
         transform: "scale(1.02) translateY(0)",
         toast: "🔥 Bit Heat & Friction View: PDC 3D rock excavation and cutter shear zone."
       },
@@ -118,7 +136,7 @@ class DrillingOperationsEngine {
         badge2: { text: "Steerable Active", class: "green" },
         showDepth: false,
         showStrata: false,
-        overlay: null,
+        overlay: overlayDirectional,
         transform: "scale(1.02) translateY(0)",
         toast: "🧭 Directional Mud Motor View: 3D steerable BHA boring into rock formation."
       }
@@ -137,8 +155,12 @@ class DrillingOperationsEngine {
         }
       });
 
-      // 2. Cross-fade image
-      if (cutawayImg) {
+      // 2. Active 3D WebGL Camera Glide & Scene Switch
+      if (window.drilling3dInstance) {
+        window.drilling3dInstance.setView(viewKey);
+        if (cutawayImg) cutawayImg.style.display = "none";
+      } else if (cutawayImg) {
+        cutawayImg.style.display = "block";
         cutawayImg.style.opacity = "0.2";
         setTimeout(() => {
           cutawayImg.src = cfg.image;
@@ -210,15 +232,23 @@ class DrillingOperationsEngine {
       // Tool 1: Reset View & Center
       vpTools[1].addEventListener("click", () => {
         currentZoom = 1.0;
-        if (cutawayImg) cutawayImg.style.transform = "scale(1.0) translateY(0)";
-        showGlobalToast("Viewport camera recentered.");
+        if (window.drilling3dInstance) {
+          window.drilling3dInstance.resetView();
+        } else if (cutawayImg) {
+          cutawayImg.style.transform = "scale(1.0) translateY(0)";
+        }
+        showGlobalToast("3D Viewport camera recentered.");
       });
 
       // Tool 2: Zoom In / Out Toggle
       vpTools[2].addEventListener("click", () => {
         currentZoom = currentZoom === 1.0 ? 1.25 : 1.0;
-        if (cutawayImg) cutawayImg.style.transform = `scale(${currentZoom})`;
-        showGlobalToast(`Camera Zoom: ${currentZoom === 1.0 ? "Normal (100%)" : "Magnified (125%)"}`);
+        if (window.drilling3dInstance) {
+          window.drilling3dInstance.zoom(currentZoom === 1.0 ? 1.25 : 0.8);
+        } else if (cutawayImg) {
+          cutawayImg.style.transform = `scale(${currentZoom})`;
+        }
+        showGlobalToast(`3D Camera Zoom: ${currentZoom === 1.0 ? "Normal (100%)" : "Magnified (125%)"}`);
       });
     }
 
@@ -810,6 +840,10 @@ class DrillingOperationsEngine {
     }
 
     // Activate 3D Viewport Dynamic Simulation Effects
+    if (window.drilling3dInstance) {
+      window.drilling3dInstance.setDrilling(true, Math.round(this.telemetry.rpm) || 110);
+    }
+
     const sceneWrapper = document.getElementById("scene3dWrapper");
     if (sceneWrapper) {
       sceneWrapper.className = `subsurface-viewport is-drilling-active view-${this.currentView || "subsurface"}`;
@@ -862,6 +896,10 @@ class DrillingOperationsEngine {
     if (!this.isDrilling) return;
     this.isDrilling = false;
 
+    if (window.drilling3dInstance) {
+      window.drilling3dInstance.setDrilling(false);
+    }
+
     if (this.btnStartDrilling) this.btnStartDrilling.disabled = false;
     if (this.btnStopDrilling) this.btnStopDrilling.disabled = true;
     if (this.opStatusText) {
@@ -899,6 +937,9 @@ class DrillingOperationsEngine {
 
     // Smooth continuous depth advancement: ~0.02 m per second
     this.currentDepth = +(this.currentDepth + 0.002).toFixed(2);
+    if (window.drilling3dInstance) {
+      window.drilling3dInstance.currentDepth = this.currentDepth;
+    }
 
     const now = Date.now();
     const ropJitter = Math.sin(now * 0.003) * 0.7 + (Math.random() - 0.5) * 0.25;

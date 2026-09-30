@@ -632,6 +632,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.initDrillingEngine) {
         window.initDrillingEngine();
       }
+      setTimeout(() => {
+        if (window.drilling3dInstance) {
+          window.drilling3dInstance.onResize();
+        }
+      }, 80);
     } else if (target === "ragbot") {
       if (navRagBot) navRagBot.classList.add("active");
       if (pageRagBot) pageRagBot.classList.remove("hidden");
