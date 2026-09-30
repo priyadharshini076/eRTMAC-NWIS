@@ -7907,6 +7907,354 @@ body:not(.login-mode) #loginViewContainer {
   }
 }
 
+/* ==========================================================================
+   VIBRANT DISTINCT COLORED BORDERS FOR ALL RECTANGLE BOXES ACROSS EVERY PAGE
+   Each box/card receives its own distinct color identity, border, and glow
+   ========================================================================== */
 
+/* -------------------------------------------------------------
+   GLOBAL & SIDEBAR BOXES
+   ------------------------------------------------------------- */
+.rig-site-card {
+  border: 2px solid #10b981 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.18) !important;
+}
 
+.basin-selector {
+  border: 1.5px solid #0284c7 !important;
+}
 
+.clock-pill {
+  border: 1.5px solid #0284c7 !important;
+}
+
+.status-chip {
+  border: 1.5px solid #10b981 !important;
+  background: #f0fdf4 !important;
+}
+
+.btn-view-alerts-risk {
+  border: 2px solid #f59e0b !important;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* -------------------------------------------------------------
+   PAGE 1: CURRENT WELL / DRILLING ENGINEER (#pageDrillEngineer)
+   ------------------------------------------------------------- */
+#pageDrillEngineer .drill-risk-interlock-strip {
+  border: 2px solid #f43f5e !important;
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.15) !important;
+}
+
+#pageDrillEngineer .risk-live-score-box {
+  border: 2px solid #e11d48 !important;
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.2) !important;
+}
+
+#pageDrillEngineer .drill-control-strip {
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12) !important;
+}
+
+#pageDrillEngineer .strip-select {
+  border: 1.5px solid #0284c7 !important;
+}
+
+/* 3D Viewport Main Card - Electric Blue */
+#pageDrillEngineer .card-3d-operation {
+  border: 2px solid #0ea5e9 !important;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.15) !important;
+}
+
+#pageDrillEngineer .subsurface-viewport {
+  border: 2px solid #0284c7 !important;
+}
+
+/* View Pills - Distinct Cycling Borders */
+#pageDrillEngineer .view-pill:nth-child(1) { border: 1.5px solid #0284c7 !important; }
+#pageDrillEngineer .view-pill:nth-child(2) { border: 1.5px solid #10b981 !important; }
+#pageDrillEngineer .view-pill:nth-child(3) { border: 1.5px solid #f59e0b !important; }
+#pageDrillEngineer .view-pill:nth-child(4) { border: 1.5px solid #8b5cf6 !important; }
+
+/* HUD Cards inside 3D View */
+#pageDrillEngineer .directional-hud-card {
+  border: 2px solid #8b5cf6 !important;
+  box-shadow: 0 3px 12px rgba(139, 92, 246, 0.2) !important;
+}
+
+#pageDrillEngineer .thermal-hud-card {
+  border: 2px solid #f43f5e !important;
+  box-shadow: 0 3px 12px rgba(244, 63, 94, 0.2) !important;
+}
+
+/* Live Metrics Outer Card - Indigo */
+#pageDrillEngineer .card-live-metrics {
+  border: 2px solid #6366f1 !important;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* 8 Distinct Metric Tiles Grid - Each With Its Own Unique Color Border */
+#pageDrillEngineer .m-card:nth-child(1) {
+  border: 2px solid #06b6d4 !important; /* Cyan - ROP */
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(2) {
+  border: 2px solid #10b981 !important; /* Emerald - WOB */
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(3) {
+  border: 2px solid #8b5cf6 !important; /* Purple - RPM */
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(4) {
+  border: 2px solid #f59e0b !important; /* Amber - Torque */
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(5) {
+  border: 2px solid #ef4444 !important; /* Red - Standpipe Pressure */
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(6) {
+  border: 2px solid #2563eb !important; /* Blue - Mud Weight */
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(7) {
+  border: 2px solid #14b8a6 !important; /* Teal - Flow Rate */
+  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.15) !important;
+}
+#pageDrillEngineer .m-card:nth-child(8) {
+  border: 2px solid #ec4899 !important; /* Magenta - Total Gas / ECD */
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.15) !important;
+}
+
+#pageDrillEngineer .m-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Trends Chart Card - Cobalt Blue */
+#pageDrillEngineer .card-trends-chart {
+  border: 2px solid #3b82f6 !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.14) !important;
+}
+#pageDrillEngineer .trend-svg-container {
+  border: 1.5px solid #bfdbfe !important;
+  border-radius: 6px !important;
+}
+
+/* Subcards: Formation Progress (Gold) & Operation Status (Green) */
+#pageDrillEngineer .subcard-formation-progress {
+  border: 2px solid #d97706 !important;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.15) !important;
+}
+
+#pageDrillEngineer .subcard-operation-status {
+  border: 2px solid #059669 !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.15) !important;
+}
+
+#pageDrillEngineer .drill-footer-status-bar {
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.12) !important;
+}
+
+/* -------------------------------------------------------------
+   PAGE 2: MAP & GIS SEARCH (#pageMap)
+   ------------------------------------------------------------- */
+#pageMap .map-search-strip {
+  border: 2px solid #2563eb !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.14) !important;
+}
+
+#pageMap .well-search-input-box {
+  border: 2px solid #0284c7 !important;
+}
+
+#pageMap .osm-leaflet-viewport {
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* 4 Map KPI Cards - Distinct Colors */
+#pageMap .map-kpi-quad-grid .map-kpi-card:nth-child(1) {
+  border: 2px solid #10b981 !important; /* Green */
+  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.15) !important;
+}
+#pageMap .map-kpi-quad-grid .map-kpi-card:nth-child(2) {
+  border: 2px solid #06b6d4 !important; /* Cyan */
+  box-shadow: 0 3px 12px rgba(6, 182, 212, 0.15) !important;
+}
+#pageMap .map-kpi-quad-grid .map-kpi-card:nth-child(3) {
+  border: 2px solid #ef4444 !important; /* Red */
+  box-shadow: 0 3px 12px rgba(239, 68, 68, 0.15) !important;
+}
+#pageMap .map-kpi-quad-grid .map-kpi-card:nth-child(4) {
+  border: 2px solid #8b5cf6 !important; /* Purple */
+  box-shadow: 0 3px 12px rgba(139, 92, 246, 0.15) !important;
+}
+
+/* Offset Details Panel - Vivid Purple */
+#pageMap .offset-details-panel {
+  border: 2px solid #7c3aed !important;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15) !important;
+}
+
+#pageMap .tech-spec-box {
+  border: 1.5px solid #c4b5fd !important;
+}
+
+#pageMap .drilling-curve-chart-card {
+  border: 2px solid #f59e0b !important; /* Amber */
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.15) !important;
+}
+
+#pageMap .npt-events-card {
+  border: 2px solid #ea580c !important; /* Safety Orange */
+  box-shadow: 0 3px 12px rgba(234, 88, 12, 0.15) !important;
+}
+
+#pageMap .stratigraphic-tops-card {
+  border: 2px solid #0d9488 !important; /* Teal */
+  box-shadow: 0 3px 12px rgba(13, 148, 136, 0.15) !important;
+}
+
+/* -------------------------------------------------------------
+   PAGE 3: STRATIGRAPHIC CORRELATION (#pageCorrelation)
+   ------------------------------------------------------------- */
+#pageCorrelation .corr-filter-strip {
+  border: 2px solid #2563eb !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.14) !important;
+}
+
+/* 4 Correlation KPI Cards */
+#pageCorrelation .corr-kpi-card:nth-child(1) {
+  border: 2px solid #10b981 !important; /* Green */
+  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.15) !important;
+}
+#pageCorrelation .corr-kpi-card:nth-child(2) {
+  border: 2px solid #0284c7 !important; /* Blue */
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.15) !important;
+}
+#pageCorrelation .corr-kpi-card:nth-child(3) {
+  border: 2px solid #f59e0b !important; /* Amber */
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.15) !important;
+}
+#pageCorrelation .corr-kpi-card:nth-child(4) {
+  border: 2px solid #8b5cf6 !important; /* Violet */
+  box-shadow: 0 3px 12px rgba(139, 92, 246, 0.15) !important;
+}
+
+#pageCorrelation .corr-section-card {
+  border: 2px solid #06b6d4 !important; /* Cyan */
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.14) !important;
+}
+
+#pageCorrelation .corr-table-card {
+  border: 2px solid #6366f1 !important; /* Indigo */
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.14) !important;
+}
+
+/* Fence Diagram Wells Columns */
+#pageCorrelation .fence-col-card:nth-child(1) { border: 2px solid #0284c7 !important; }
+#pageCorrelation .fence-col-card:nth-child(2) { border: 2px solid #10b981 !important; }
+#pageCorrelation .fence-col-card:nth-child(3) { border: 2px solid #f59e0b !important; }
+#pageCorrelation .fence-col-card:nth-child(4) { border: 2px solid #8b5cf6 !important; }
+
+/* -------------------------------------------------------------
+   PAGE 4: RISK ASSESSMENT & SIMULATION (#pageRiskAssessment)
+   ------------------------------------------------------------- */
+#pageRiskAssessment .control-strip {
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.14) !important;
+}
+
+#pageRiskAssessment .fused-risk-card {
+  border: 2px solid #e11d48 !important; /* Crimson Red */
+  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.2) !important;
+}
+
+#pageRiskAssessment .section-card {
+  border: 2px solid #3b82f6 !important; /* Cobalt Blue */
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.14) !important;
+}
+
+/* 5 Risk Parameter Cards - Distinct Vibrant Borders */
+#pageRiskAssessment .action-cards-grid .expl-card:nth-child(1) {
+  border: 2px solid #0284c7 !important; /* Sky Blue - Pore Pressure */
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.15) !important;
+}
+#pageRiskAssessment .action-cards-grid .expl-card:nth-child(2) {
+  border: 2px solid #f59e0b !important; /* Amber - Wellbore Stability */
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.15) !important;
+}
+#pageRiskAssessment .action-cards-grid .expl-card:nth-child(3) {
+  border: 2px solid #ef4444 !important; /* Crimson - Kick Likelihood */
+  box-shadow: 0 3px 12px rgba(239, 68, 68, 0.15) !important;
+}
+#pageRiskAssessment .action-cards-grid .expl-card:nth-child(4) {
+  border: 2px solid #8b5cf6 !important; /* Violet - Stuck Pipe */
+  box-shadow: 0 3px 12px rgba(139, 92, 246, 0.15) !important;
+}
+#pageRiskAssessment .action-cards-grid .expl-card:nth-child(5) {
+  border: 2px solid #14b8a6 !important; /* Teal - Lost Circulation */
+  box-shadow: 0 3px 12px rgba(20, 184, 166, 0.15) !important;
+}
+
+#pageRiskAssessment .matrix-table-card {
+  border: 2px solid #059669 !important; /* Forest Green */
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.14) !important;
+}
+
+#pageRiskAssessment .actions-footer-strip {
+  border: 2px solid #4f46e5 !important; /* Indigo */
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.14) !important;
+}
+
+/* -------------------------------------------------------------
+   PAGE 5: HAZARD ALERTS & ML DECISION SUPPORT (#pageAlerts)
+   ------------------------------------------------------------- */
+#pageAlerts .control-strip {
+  border: 2px solid #f59e0b !important; /* Safety Amber */
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.14) !important;
+}
+
+#pageAlerts .supervisor-approval-card {
+  border: 2px solid #8b5cf6 !important; /* Vibrant Purple */
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.18) !important;
+}
+
+#pageAlerts .engineer-approval-notice-box {
+  border: 2px solid #eab308 !important; /* Gold */
+  box-shadow: 0 2px 10px rgba(234, 179, 8, 0.15) !important;
+}
+
+/* Hazard Alert Cards - Distinct Border by Severity */
+#pageAlerts .supervisor-hazard-card.critical,
+#pageAlerts .supervisor-hazard-card.crit {
+  border: 2px solid #dc2626 !important; /* Crimson Red */
+  border-left-width: 5px !important;
+  box-shadow: 0 3px 14px rgba(220, 38, 38, 0.16) !important;
+}
+
+#pageAlerts .supervisor-hazard-card.warning,
+#pageAlerts .supervisor-hazard-card.warn {
+  border: 2px solid #d97706 !important; /* Amber Orange */
+  border-left-width: 5px !important;
+  box-shadow: 0 3px 14px rgba(217, 119, 6, 0.16) !important;
+}
+
+#pageAlerts .supervisor-hazard-card.advisory,
+#pageAlerts .supervisor-hazard-card.info {
+  border: 2px solid #0284c7 !important; /* Sky Blue */
+  border-left-width: 5px !important;
+  box-shadow: 0 3px 14px rgba(2, 132, 199, 0.16) !important;
+}
+
+#pageAlerts .graph-card {
+  border: 2px solid #10b981 !important; /* Emerald Green */
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15) !important;
+}
+
+#pageAlerts .protocol-card {
+  border: 2px solid #6366f1 !important; /* Indigo */
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15) !important;
+}
