@@ -104,11 +104,11 @@ class DrillingOperationsEngine {
         sub: "Continuous Drilling • PDC Tri-Cone Shearing • Friction Heat Dissipation",
         badge1: { text: "Temp 184.2 °C", class: "red" },
         badge2: { text: "Critical Friction", class: "amber" },
-        showDepth: true,
+        showDepth: false,
         showStrata: false,
-        overlay: overlayThermal,
+        overlay: null,
         transform: "scale(1.02) translateY(0)",
-        toast: "🔥 Bit Heat & Friction View: Monitoring active cutter heat generation and cooling jet."
+        toast: "🔥 Bit Heat & Friction View: PDC 3D rock excavation and cutter shear zone."
       },
       directional: {
         image: "assets/view_directional_motor.png",
@@ -116,11 +116,11 @@ class DrillingOperationsEngine {
         sub: "Positive Displacement Motor (PDM) • Bent Sub 1.5° • Fractured Reservoir Zone",
         badge1: { text: "Inclination 24.8°", class: "amber" },
         badge2: { text: "Steerable Active", class: "green" },
-        showDepth: true,
+        showDepth: false,
         showStrata: false,
-        overlay: overlayDirectional,
+        overlay: null,
         transform: "scale(1.02) translateY(0)",
-        toast: "🧭 Directional Mud Motor View: Steerable assembly penetrating rock fractures into reservoir."
+        toast: "🧭 Directional Mud Motor View: 3D steerable BHA boring into rock formation."
       }
     };
 
@@ -291,27 +291,37 @@ class DrillingOperationsEngine {
 
     // 1. Friction Sparks (for Thermal View)
     this.sparkParticles = [];
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 75; i++) {
       this.sparkParticles.push(this.createSpark());
     }
 
     // 2. High-Pressure Nozzle Jets (for Thermal View)
     this.jetParticles = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 65; i++) {
       this.jetParticles.push(this.createJetDrop());
     }
 
-    // 3. Directional Mud Motor Fluid & Rock Cuttings (for Directional View)
+    // 3. Thermal PDC Rock Excavation Cuttings & Pulverized Rock Dust
+    this.thermalRockCuttings = [];
+    for (let i = 0; i < 55; i++) {
+      this.thermalRockCuttings.push(this.createThermalRockCutting());
+    }
+    this.rockDustParticles = [];
+    for (let i = 0; i < 35; i++) {
+      this.rockDustParticles.push(this.createRockDust());
+    }
+
+    // 4. Directional Mud Motor Fluid & Rock Cuttings (for Directional View)
     this.mudStreamParticles = [];
-    for (let i = 0; i < 65; i++) {
+    for (let i = 0; i < 70; i++) {
       this.mudStreamParticles.push(this.createMudParticle());
     }
     this.rockCuttingParticles = [];
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 50; i++) {
       this.rockCuttingParticles.push(this.createRockCutting());
     }
 
-    // 4. Subsurface Circulation Loop (for Subsurface View)
+    // 5. Subsurface Circulation Loop (for Subsurface View)
     this.subsurfaceLoopParticles = [];
     for (let i = 0; i < 50; i++) {
       this.subsurfaceLoopParticles.push(this.createSubsurfaceParticle());
@@ -322,19 +332,19 @@ class DrillingOperationsEngine {
     const w = this.particleCanvas ? this.particleCanvas.width : 600;
     const h = this.particleCanvas ? this.particleCanvas.height : 500;
     const x = cx || (w * 0.50);
-    const y = cy || (h * 0.69);
+    const y = cy || (h * 0.72);
     const angle = (Math.random() * Math.PI) + Math.PI * 0.05;
-    const speed = Math.random() * 5.5 + 2.5;
-    const colors = ["#ffffff", "#fef08a", "#f59e0b", "#ef4444", "#f97316"];
+    const speed = Math.random() * 5.8 + 2.5;
+    const colors = ["#ffffff", "#fef08a", "#fde047", "#f59e0b", "#f97316", "#ef4444"];
     return {
-      x: x + (Math.random() - 0.5) * 40,
+      x: x + (Math.random() - 0.5) * 44,
       y: y + (Math.random() - 0.5) * 14,
       vx: Math.cos(angle) * speed * (Math.random() > 0.5 ? 1 : -1),
-      vy: Math.sin(angle) * speed - 1.8,
-      size: Math.random() * 2.8 + 1.2,
+      vy: Math.sin(angle) * speed - 2.0,
+      size: Math.random() * 3.0 + 1.2,
       color: colors[Math.floor(Math.random() * colors.length)],
-      life: Math.floor(Math.random() * 24) + 8,
-      maxLife: 32
+      life: Math.floor(Math.random() * 26) + 8,
+      maxLife: 34
     };
   }
 
@@ -342,17 +352,55 @@ class DrillingOperationsEngine {
     const w = this.particleCanvas ? this.particleCanvas.width : 600;
     const h = this.particleCanvas ? this.particleCanvas.height : 500;
     const x = cx || (w * 0.50);
-    const y = cy || (h * 0.67);
+    const y = cy || (h * 0.69);
     const isLeft = Math.random() > 0.5;
     return {
-      x: isLeft ? x - 18 : x + 18,
+      x: isLeft ? x - 22 : x + 22,
       y: y,
-      vx: (isLeft ? -1 : 1) * (Math.random() * 4.5 + 2.0) + (Math.random() - 0.5) * 1.5,
-      vy: Math.random() * 5.5 + 3.0,
-      size: Math.random() * 3.5 + 1.5,
-      alpha: Math.random() * 0.8 + 0.25,
-      life: Math.floor(Math.random() * 20) + 8,
-      maxLife: 28
+      vx: (isLeft ? -1 : 1) * (Math.random() * 4.8 + 2.2) + (Math.random() - 0.5) * 1.6,
+      vy: Math.random() * 6.0 + 3.2,
+      size: Math.random() * 3.6 + 1.6,
+      alpha: Math.random() * 0.85 + 0.25,
+      life: Math.floor(Math.random() * 22) + 8,
+      maxLife: 30
+    };
+  }
+
+  createThermalRockCutting(cx, cy) {
+    const w = this.particleCanvas ? this.particleCanvas.width : 600;
+    const h = this.particleCanvas ? this.particleCanvas.height : 500;
+    const x = cx || (w * 0.50);
+    const y = cy || (h * 0.72);
+    const rockColors = ["#d97706", "#b45309", "#78716c", "#a8a29e", "#d6d3d1", "#e7e5e4", "#ca8a04"];
+    return {
+      x: x + (Math.random() - 0.5) * 64,
+      y: y + (Math.random() - 0.5) * 16,
+      vx: (Math.random() - 0.5) * 5.2,
+      vy: -Math.random() * 4.6 - 1.4, // carried upward in annulus
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.35,
+      size: Math.random() * 4.5 + 2.2,
+      color: rockColors[Math.floor(Math.random() * rockColors.length)],
+      life: Math.floor(Math.random() * 45) + 15,
+      maxLife: 60
+    };
+  }
+
+  createRockDust(cx, cy) {
+    const w = this.particleCanvas ? this.particleCanvas.width : 600;
+    const h = this.particleCanvas ? this.particleCanvas.height : 500;
+    const x = cx || (w * 0.50);
+    const y = cy || (h * 0.72);
+    return {
+      x: x + (Math.random() - 0.5) * 60,
+      y: y + (Math.random() - 0.5) * 18,
+      vx: (Math.random() - 0.5) * 1.8,
+      vy: -Math.random() * 1.6 - 0.6,
+      radius: Math.random() * 8 + 4,
+      maxRadius: Math.random() * 22 + 12,
+      alpha: Math.random() * 0.30 + 0.12,
+      life: Math.floor(Math.random() * 40) + 20,
+      maxLife: 60
     };
   }
 
@@ -362,8 +410,8 @@ class DrillingOperationsEngine {
     return {
       x: w * 0.38 + (Math.random() - 0.5) * 90,
       y: h * 0.45 + (Math.random() - 0.5) * 130,
-      vx: (Math.random() - 0.35) * 3.5 + 1.2,
-      vy: Math.random() * 3.2 + 1.8,
+      vx: (Math.random() - 0.35) * 3.6 + 1.4,
+      vy: Math.random() * 3.4 + 2.0,
       size: Math.random() * 4.2 + 2.0,
       alpha: Math.random() * 0.75 + 0.25,
       life: Math.floor(Math.random() * 35) + 15,
@@ -375,13 +423,13 @@ class DrillingOperationsEngine {
     const w = this.particleCanvas ? this.particleCanvas.width : 600;
     const h = this.particleCanvas ? this.particleCanvas.height : 500;
     return {
-      x: w * 0.38 + (Math.random() - 0.5) * 32,
-      y: h * 0.64 + (Math.random() - 0.5) * 28,
-      vx: (Math.random() - 0.5) * 2.2 - 1.2,
-      vy: -Math.random() * 3.2 - 1.2, // ascends with mud flow returns
+      x: w * 0.38 + (Math.random() - 0.5) * 40,
+      y: h * 0.66 + (Math.random() - 0.5) * 30,
+      vx: (Math.random() - 0.5) * 2.4 - 1.2,
+      vy: -Math.random() * 3.4 - 1.4, // ascends with mud flow returns
       rot: Math.random() * Math.PI * 2,
       rotSpeed: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 3.6 + 2.2,
+      size: Math.random() * 3.8 + 2.2,
       life: Math.floor(Math.random() * 45) + 15,
       maxLife: 60
     };
@@ -411,54 +459,139 @@ class DrillingOperationsEngine {
 
     ctx.clearRect(0, 0, w, h);
 
-    if (!this.isDrilling) return;
-
+    const isDrilling = this.isDrilling;
+    const intensity = isDrilling ? 1.0 : 0.62;
+    const now = Date.now();
     const vKey = this.currentView || "subsurface";
 
     if (vKey === "thermal") {
       // =========================================================================
-      // VIEW 2: 🔥 BIT HEAT & ROCK FRICTION (THERMAL CUTTER ROTATION & SPARKS)
+      // VIEW 2: 🔥 BIT HEAT & ROCK FRICTION (PDC 3D ROCK EXCAVATION & DIGGING)
       // =========================================================================
       const cx = w * 0.50;
-      const cy = h * 0.69;
+      const cy = h * 0.72;
 
-      // 1. Pulsing Thermal Incandescent Heat Aura
-      const pulseR = 52 + Math.sin(Date.now() * 0.015) * 10;
-      const grad = ctx.createRadialGradient(cx, cy, 4, cx, cy, pulseR);
-      grad.addColorStop(0, "rgba(255, 68, 0, 0.65)");
-      grad.addColorStop(0.35, "rgba(245, 158, 11, 0.42)");
-      grad.addColorStop(0.75, "rgba(239, 68, 68, 0.20)");
+      // 1. Compressive Rock Strata Shockwave Pulses (Excavation impact rings)
+      const waveProgress = (now * (isDrilling ? 0.0035 : 0.002)) % 1;
+      const waveRadiusX = 26 + waveProgress * 48;
+      const waveRadiusY = 7 + waveProgress * 13;
+      const waveAlpha = (1 - waveProgress) * 0.55 * intensity;
+      ctx.strokeStyle = `rgba(245, 158, 11, ${waveAlpha})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + 3, waveRadiusX, waveRadiusY, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 2. Rotary Cutter Sweep Discs & Diamond Shear Teeth
+      ctx.save();
+      ctx.translate(cx, cy);
+      const rotPhase = (now * (isDrilling ? 0.024 : 0.012)) % (Math.PI * 2);
+      for (let b = 0; b < 3; b++) {
+        const bladeAngle = rotPhase + (b * Math.PI * 2 / 3);
+        const bladeX = Math.cos(bladeAngle) * 38;
+        const bladeY = Math.sin(bladeAngle) * 10;
+
+        // Dynamic rotary shear arc
+        ctx.strokeStyle = `rgba(245, 158, 11, ${0.48 * intensity})`;
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 38, 10, 0, bladeAngle - 0.75, bladeAngle);
+        ctx.stroke();
+
+        // Incandescent PDC Diamond Cutter Tooth Tip
+        ctx.fillStyle = isDrilling ? "#ffffff" : "#fef08a";
+        ctx.shadowColor = "#f59e0b";
+        ctx.shadowBlur = isDrilling ? 14 : 7;
+        ctx.beginPath();
+        ctx.arc(bladeX, bladeY, isDrilling ? 3.8 : 2.6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+      ctx.restore();
+
+      // 3. Pulsing Incandescent Thermal Heat Core at Rock Contact
+      const pulseR = (isDrilling ? 58 : 42) + Math.sin(now * 0.015) * 8;
+      const grad = ctx.createRadialGradient(cx, cy, 3, cx, cy, pulseR);
+      grad.addColorStop(0, `rgba(255, 68, 0, ${0.75 * intensity})`);
+      grad.addColorStop(0.35, `rgba(245, 158, 11, ${0.48 * intensity})`);
+      grad.addColorStop(0.75, `rgba(239, 68, 68, ${0.22 * intensity})`);
       grad.addColorStop(1, "rgba(239, 68, 68, 0)");
-
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.arc(cx, cy, pulseR, 0, Math.PI * 2);
       ctx.fill();
 
-      // 2. High-Pressure Cooling Mud Jets from Nozzles
-      this.jetParticles.forEach((jp, idx) => {
-        jp.x += jp.vx;
-        jp.y += jp.vy;
-        jp.life--;
-        if (jp.life <= 0) {
-          this.jetParticles[idx] = this.createJetDrop(cx, cy - 6);
+      // 4. Pulverized Rock Dust Puffs at Cutter Boundary
+      this.rockDustParticles.forEach((dp, idx) => {
+        dp.x += dp.vx * intensity;
+        dp.y += dp.vy * intensity;
+        dp.radius += 0.35;
+        dp.life--;
+        if (dp.life <= 0) {
+          this.rockDustParticles[idx] = this.createRockDust(cx, cy);
         } else {
-          ctx.fillStyle = `rgba(56, 189, 248, ${jp.alpha * 0.8})`;
+          const ratio = dp.life / dp.maxLife;
+          ctx.fillStyle = `rgba(214, 211, 209, ${dp.alpha * ratio * intensity})`;
           ctx.beginPath();
-          ctx.arc(jp.x, jp.y, jp.size, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.fillStyle = `rgba(255, 255, 255, ${jp.alpha * 0.4})`;
-          ctx.beginPath();
-          ctx.arc(jp.x, jp.y, jp.size * 1.6, 0, Math.PI * 2);
+          ctx.arc(dp.x, dp.y, dp.radius, 0, Math.PI * 2);
           ctx.fill();
         }
       });
 
-      // 3. High-Velocity Rock Friction Sparks
+      // 5. Active Rock Cuttings (Sandstone & Shale Chips breaking off into annulus)
+      this.thermalRockCuttings.forEach((rc, idx) => {
+        rc.x += rc.vx * intensity;
+        rc.y += rc.vy * intensity;
+        rc.rot += rc.rotSpeed;
+        rc.life--;
+        if (rc.life <= 0 || rc.y < 0) {
+          this.thermalRockCuttings[idx] = this.createThermalRockCutting(cx, cy);
+        } else {
+          const ratio = rc.life / rc.maxLife;
+          ctx.save();
+          ctx.translate(rc.x, rc.y);
+          ctx.rotate(rc.rot);
+          ctx.fillStyle = rc.color;
+          ctx.strokeStyle = "#44403c";
+          ctx.lineWidth = 1;
+          const s = rc.size * (0.5 + 0.5 * ratio);
+          // Irregular polygon rock fragment
+          ctx.beginPath();
+          ctx.moveTo(-s / 2, -s / 2);
+          ctx.lineTo(s / 2, -s / 3);
+          ctx.lineTo(s * 0.7, s / 2);
+          ctx.lineTo(-s / 3, s * 0.6);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        }
+      });
+
+      // 6. High-Pressure Cooling Mud Jets from Nozzles
+      this.jetParticles.forEach((jp, idx) => {
+        jp.x += jp.vx * intensity;
+        jp.y += jp.vy * intensity;
+        jp.life--;
+        if (jp.life <= 0) {
+          this.jetParticles[idx] = this.createJetDrop(cx, cy - 8);
+        } else {
+          ctx.fillStyle = `rgba(56, 189, 248, ${jp.alpha * 0.85 * intensity})`;
+          ctx.beginPath();
+          ctx.arc(jp.x, jp.y, jp.size, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(255, 255, 255, ${jp.alpha * 0.45 * intensity})`;
+          ctx.beginPath();
+          ctx.arc(jp.x, jp.y, jp.size * 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // 7. High-Velocity Rock Friction Sparks
       this.sparkParticles.forEach((sp, idx) => {
-        sp.x += sp.vx;
-        sp.y += sp.vy;
+        sp.x += sp.vx * intensity;
+        sp.y += sp.vy * intensity;
         sp.vy += 0.18; // gravity
         sp.life--;
         if (sp.life <= 0) {
@@ -467,7 +600,7 @@ class DrillingOperationsEngine {
           const ratio = sp.life / sp.maxLife;
           ctx.fillStyle = sp.color;
           ctx.shadowColor = sp.color;
-          ctx.shadowBlur = 8;
+          ctx.shadowBlur = isDrilling ? 10 : 5;
           ctx.beginPath();
           ctx.arc(sp.x, sp.y, sp.size * ratio, 0, Math.PI * 2);
           ctx.fill();
@@ -475,43 +608,81 @@ class DrillingOperationsEngine {
         }
       });
 
-      // 4. Shimmering Convective Heat Waves
-      ctx.strokeStyle = "rgba(255, 180, 50, 0.22)";
-      ctx.lineWidth = 1.5;
+      // 8. Shimmering Convective Heat Waves
+      ctx.strokeStyle = `rgba(255, 180, 50, ${0.25 * intensity})`;
+      ctx.lineWidth = 1.6;
       for (let i = 0; i < 5; i++) {
-        const offset = Math.sin(Date.now() * 0.009 + i * 1.4) * 7;
+        const offset = Math.sin(now * 0.009 + i * 1.4) * 8;
         ctx.beginPath();
         ctx.moveTo(cx - 36 + i * 18, cy - 10);
-        ctx.bezierCurveTo(cx - 36 + i * 18 + offset, cy - 40, cx - 36 + i * 18 - offset, cy - 70, cx - 36 + i * 18, cy - 100);
+        ctx.bezierCurveTo(cx - 36 + i * 18 + offset, cy - 42, cx - 36 + i * 18 - offset, cy - 74, cx - 36 + i * 18, cy - 106);
         ctx.stroke();
       }
 
     } else if (vKey === "directional") {
       // =========================================================================
-      // VIEW 3: 🧭 DIRECTIONAL MUD MOTOR & FRACTURE INTRUSION
+      // VIEW 3: 🧭 DIRECTIONAL MUD MOTOR & FRACTURE INTRUSION (3D STEERABLE BORING)
       // =========================================================================
-      const cx = w * 0.40;
-      const cy = h * 0.65;
+      const cx = w * 0.38;
+      const cy = h * 0.67;
 
-      // 1. Swirling Hydraulic Mud Turbine Streams
+      // 1. Angled 3D Directional Boring Plane & Steerable Cutter Sweep
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(0.43); // ~24.8° inclination tilt
+      const dirPhase = (now * (isDrilling ? 0.022 : 0.011)) % (Math.PI * 2);
+
+      // Angled borehole excavation ellipse
+      ctx.strokeStyle = `rgba(56, 189, 248, ${0.68 * intensity})`;
+      ctx.lineWidth = 2.8;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 36, 10, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Rotating directional cutter teeth
+      for (let b = 0; b < 3; b++) {
+        const bAngle = dirPhase + (b * Math.PI * 2 / 3);
+        const bx = Math.cos(bAngle) * 36;
+        const by = Math.sin(bAngle) * 10;
+        ctx.fillStyle = isDrilling ? "#ffffff" : "#38bdf8";
+        ctx.shadowColor = "#0284c7";
+        ctx.shadowBlur = isDrilling ? 10 : 5;
+        ctx.beginPath();
+        ctx.arc(bx, by, isDrilling ? 3.4 : 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      // Directional thrust vector guide line into reservoir
+      ctx.strokeStyle = `rgba(16, 185, 129, ${0.65 * intensity})`;
+      ctx.lineWidth = 2.2;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, 52);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+
+      // 2. Swirling Hydraulic Mud Turbine Streams
       this.mudStreamParticles.forEach((mp, idx) => {
-        mp.x += mp.vx;
-        mp.y += mp.vy;
+        mp.x += mp.vx * intensity;
+        mp.y += mp.vy * intensity;
         mp.life--;
         if (mp.life <= 0 || mp.y > h) {
           this.mudStreamParticles[idx] = this.createMudParticle();
         } else {
-          ctx.fillStyle = `rgba(14, 165, 233, ${mp.alpha * 0.85})`;
+          ctx.fillStyle = `rgba(14, 165, 233, ${mp.alpha * 0.85 * intensity})`;
           ctx.beginPath();
           ctx.arc(mp.x, mp.y, mp.size, 0, Math.PI * 2);
           ctx.fill();
         }
       });
 
-      // 2. Rock Fracture Cuttings Flaking into Mud Stream
+      // 3. Fractured Rock Strata Breakaway Cuttings into Annulus
       this.rockCuttingParticles.forEach((rc, idx) => {
-        rc.x += rc.vx;
-        rc.y += rc.vy;
+        rc.x += rc.vx * intensity;
+        rc.y += rc.vy * intensity;
         rc.rot += rc.rotSpeed;
         rc.life--;
         if (rc.life <= 0 || rc.y < 0) {
@@ -529,10 +700,10 @@ class DrillingOperationsEngine {
         }
       });
 
-      // 3. Directional Motor Thrust Pulse Halo
-      const thrustR = 26 + Math.sin(Date.now() * 0.012) * 6;
+      // 4. Directional Motor Thrust Pulse Halo
+      const thrustR = 30 + Math.sin(now * 0.012) * 7;
       const tGrad = ctx.createRadialGradient(cx, cy, 3, cx, cy, thrustR);
-      tGrad.addColorStop(0, "rgba(56, 189, 248, 0.7)");
+      tGrad.addColorStop(0, `rgba(56, 189, 248, ${0.72 * intensity})`);
       tGrad.addColorStop(1, "rgba(56, 189, 248, 0)");
       ctx.fillStyle = tGrad;
       ctx.beginPath();
