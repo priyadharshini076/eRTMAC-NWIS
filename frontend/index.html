@@ -3069,12 +3069,10 @@
 
               <!-- 3D Subsurface Viewport Scene -->
               <div class="subsurface-viewport" id="scene3dWrapper">
-                <!-- Interactive Three.js 3D Drilling Simulation Model Viewport -->
-                <div id="threeDrillViewport" class="three-drill-viewport"></div>
-                <img src="assets/drilling_subsurface.jpg" alt="3D Subsurface Model" class="subsurface-bg-image" id="subsurfaceCutawayImg" style="display:none;">
+                <img src="assets/drilling_subsurface.jpg" alt="3D Subsurface Model" class="subsurface-bg-image" id="subsurfaceCutawayImg">
 
-                <!-- Live Dynamic Drilling Visual FX Canvas (Fallback / Auxiliary) -->
-                <canvas id="drillSimulationFxCanvas" class="drill-fx-canvas" style="display:none;"></canvas>
+                <!-- Live Dynamic Drilling Visual FX Canvas (Sparks, Jet Sprays, Mud Churn, Vibration) -->
+                <canvas id="drillSimulationFxCanvas" class="drill-fx-canvas"></canvas>
 
                 <!-- Live Rotary Drilling Status Tag (Active while drilling) -->
                 <div class="drill-live-indicator-tag" id="drillLiveIndicatorTag">
