@@ -19,13 +19,7 @@ class Well(Base):
     latitude = Column(Float)
     longitude = Column(Float)
 
-    geom = Column(
-    Geometry(
-        "POINT",
-        srid=4326,
-        spatial_index=True
-    )
-)
+    geom = Column(String, nullable=True)
 
     target_depth_m = Column(Float)
     measured_depth_m = Column(Float)

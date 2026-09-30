@@ -22,9 +22,17 @@ with engine.begin() as conn:
 
     conn.execute(text("DELETE FROM wells_master"))
 
+    has_postgis = False
+    try:
+        has_postgis = bool(conn.execute(text("SELECT 1 FROM pg_extension WHERE extname = 'postgis'")).scalar())
+    except Exception:
+        has_postgis = False
+
+    geom_expr = "ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)" if has_postgis else "'POINT(' || :longitude || ' ' || :latitude || ')'"
+
     for _, row in df.iterrows():
 
-        conn.execute(text("""
+        conn.execute(text(f"""
             INSERT INTO wells_master
             (
                 well_id,
@@ -56,10 +64,7 @@ with engine.begin() as conn:
                 :formation,
                 :latitude,
                 :longitude,
-                ST_SetSRID(
-                    ST_MakePoint(:longitude,:latitude),
-                    4326
-                ),
+                {geom_expr},
                 :target_depth_m,
                 :measured_depth_m,
                 :true_vertical_depth_m,

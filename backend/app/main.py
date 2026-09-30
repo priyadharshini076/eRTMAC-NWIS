@@ -12,6 +12,9 @@ from app.api.v1 import trigger
 from app.api.v1 import rag
 from app.api.v1 import decision_support
 from app.api.v1 import auth
+from app.api.v1 import drilling_ws
+from app.api.v1 import correlation
+from app.api.v1 import gis
 
 app = FastAPI(
     title="eRTMAC-NWIS API",
@@ -24,14 +27,15 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # 2. CORS setup
-origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
+origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080,http://127.0.0.1:8080").split(",")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_headers=["*"],
 )
 
 # 2b. Basic Security Headers Middleware
@@ -56,3 +60,8 @@ app.include_router(
     decision_support.router,
     prefix="/api/v1"
 )
+app.include_router(drilling_ws.router, prefix="/api/v1")
+app.include_router(correlation.router, prefix="/api/v1")
+app.include_router(gis.router, prefix="/api/v1")
+
+
