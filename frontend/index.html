@@ -3767,69 +3767,94 @@
            Oil India Limited | Ministry of Petroleum & Natural Gas
            ========================================================= -->
       <section class="page-view hidden" id="pageReports">
+
+        <!-- TOP CONTROL STRIP (MATCHES GLOBAL PLATFORM DESIGN) -->
+        <div class="control-strip" id="reportsControlStrip" style="border-bottom: 2px solid #0ea5e9;">
+          <div class="strip-top-row">
+            <div class="strip-title-group">
+              <div class="strip-title-icon" style="background-color: #e0f2fe; color: #0284c7;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <div>
+                <div class="strip-title-main" style="color: #0284c7; font-size: 15px; font-weight: 800;">
+                  WELL DRILLING INTELLIGENCE &amp; PERFORMANCE REPORTS
+                  <span class="report-tag-official" style="margin-left: 8px;">OFFICIAL DOSSIER</span>
+                </div>
+                <div class="strip-title-sub">
+                  Oil India Limited • Daily Drilling Reports (DDR), Real-time Telemetry, Subsurface Geomechanics &amp; Automated PDF Generation
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Controls in Top Strip -->
+            <div class="strip-actions">
+              <!-- Well Selector -->
+              <div class="well-select-wrapper">
+                <label for="reportWellSelect">SELECT WELL:</label>
+                <select id="reportWellSelect" class="well-select-dropdown">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+
+              <!-- Download Official PDF Button -->
+              <button class="btn-report-download" id="btnDownloadReportPdf" title="Download Official Government & OIL PDF Drilling Report">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>DOWNLOAD PDF REPORT</span>
+              </button>
+
+              <!-- Print / Save as PDF Button -->
+              <button class="btn-report-print" id="btnPrintReport" title="Print or Save via Browser PDF Exporter">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <polyline points="6 9 6 2 18 2 18 9"/>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                  <rect x="6" y="14" width="12" height="8"/>
+                </svg>
+                <span>PRINT / SAVE PDF</span>
+              </button>
+
+              <!-- Refresh Button -->
+              <button class="btn-report-refresh" id="btnRefreshReportData" title="Refresh Live Drilling Telemetry">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <polyline points="1 20 1 14 7 14"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="reports-page-container">
 
-          <!-- TOP ACTION HEADER BAR -->
+          <!-- ACTIVE TARGET WELL BANNER CARD -->
           <div class="reports-header-card">
             <div class="reports-header-top">
               <div class="reports-title-group">
                 <div class="reports-icon-badge">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10 9 9 9 8 9"/>
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
                   </svg>
                 </div>
                 <div class="reports-title-text">
+                  <div class="target-well-pre-title">ACTIVE TARGET WELL DOSSIER &amp; TECHNICAL TELEMETRY</div>
                   <h2>
                     <span id="reportWellTitle">Nahorkatiya-104 (Active Target)</span>
-                    <span class="report-tag-official">OFFICIAL WELL DOSSIER</span>
                     <span class="card-badge badge-green" id="reportWellStatusBadge">Active Drilling</span>
                   </h2>
                   <p id="reportWellSubtitle">Nahorkatiya Field • Assam-Arakan Basin • Rig: BHEL 2000 HP Rig #14 • Spud: 12-Mar-2024</p>
                 </div>
-              </div>
-
-              <!-- Action Controls -->
-              <div class="reports-actions-bar">
-                <!-- Well Selector -->
-                <div class="well-select-wrapper">
-                  <label for="reportWellSelect">SELECT WELL:</label>
-                  <select id="reportWellSelect" class="well-select-dropdown">
-                    <!-- Populated dynamically -->
-                  </select>
-                </div>
-
-                <!-- Download Official PDF Button -->
-                <button class="btn-report-download" id="btnDownloadReportPdf" title="Download Official Government & OIL PDF Drilling Report">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                  </svg>
-                  <span>DOWNLOAD PDF REPORT</span>
-                </button>
-
-                <!-- Print / Save as PDF Button -->
-                <button class="btn-report-print" id="btnPrintReport" title="Print or Save via Browser PDF Exporter">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <polyline points="6 9 6 2 18 2 18 9"/>
-                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-                    <rect x="6" y="14" width="12" height="8"/>
-                  </svg>
-                  <span>PRINT / SAVE PDF</span>
-                </button>
-
-                <!-- Refresh Button -->
-                <button class="btn-report-refresh" id="btnRefreshReportData" title="Refresh Live Drilling Telemetry">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <polyline points="23 4 23 10 17 10"/>
-                    <polyline points="1 20 1 14 7 14"/>
-                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                  </svg>
-                </button>
               </div>
             </div>
 
