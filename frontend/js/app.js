@@ -640,6 +640,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (target === "ragbot") {
       if (navRagBot) navRagBot.classList.add("active");
       if (pageRagBot) pageRagBot.classList.remove("hidden");
+      if (window.ragChatbotInstance) {
+        window.ragChatbotInstance.loadQuickStats();
+        window.ragChatbotInstance.scrollToBottom();
+      }
     } else {
       showToast(`Switched view to ${target.toUpperCase()}`);
     }
