@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/rag-bot.css">
+  <link rel="stylesheet" href="css/style.css?v=2.3">
+  <link rel="stylesheet" href="css/rag-bot.css?v=2.3">
 
   <!-- Leaflet OpenStreetMap Engine -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -3324,7 +3324,7 @@
                 <div class="metrics-grid-4x2">
                   
                   <!-- Tile 1: DEPTH -->
-                  <div class="m-card">
+                  <div class="m-card m-card-depth">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-blue">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 13 12 18 17 13"/><line x1="12" y1="6" x2="12" y2="18"/></svg>
@@ -3341,7 +3341,7 @@
                   </div>
 
                   <!-- Tile 2: ROP -->
-                  <div class="m-card">
+                  <div class="m-card m-card-rop">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-purple">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -3358,7 +3358,7 @@
                   </div>
 
                   <!-- Tile 3: WOB -->
-                  <div class="m-card">
+                  <div class="m-card m-card-wob">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-red">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2c.5 3 2.5 5 4.5 7 2 2 2.5 4.5 1 7-1.5 2.5-4 4-5.5 4s-4-1.5-5.5-4c-1.5-2.5-1-5 1-7 2-2 4-4 4.5-7z"/></svg>
@@ -3375,7 +3375,7 @@
                   </div>
 
                   <!-- Tile 4: TORQUE -->
-                  <div class="m-card">
+                  <div class="m-card m-card-torque">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-orange">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -3392,7 +3392,7 @@
                   </div>
 
                   <!-- Tile 5: RPM -->
-                  <div class="m-card">
+                  <div class="m-card m-card-rpm">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-cyan">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A8 8 0 0 1 4.07 11H5a1 1 0 0 1 0-2h-.93A8 8 0 0 1 11 4.07V5a1 1 0 0 1 2 0v-.93A8 8 0 0 1 19.93 9H19a1 1 0 0 1 0 2h.93A8 8 0 0 1 13 16.93z"/></svg>
@@ -3409,7 +3409,7 @@
                   </div>
 
                   <!-- Tile 6: PUMP PRESSURE -->
-                  <div class="m-card">
+                  <div class="m-card m-card-pump">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-red">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="12" x2="16" y2="8"/><circle cx="12" cy="12" r="2"/></svg>
@@ -3426,7 +3426,7 @@
                   </div>
 
                   <!-- Tile 7: MUD WEIGHT -->
-                  <div class="m-card">
+                  <div class="m-card m-card-mud">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-teal">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
@@ -3443,7 +3443,7 @@
                   </div>
 
                   <!-- Tile 8: FLOW RATE -->
-                  <div class="m-card">
+                  <div class="m-card m-card-flow">
                     <div class="m-card-top">
                       <div class="m-icon-box bg-blue">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12h20M12 2v20"/></svg>

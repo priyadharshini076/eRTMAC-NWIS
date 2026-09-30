@@ -3884,20 +3884,60 @@ body {
 
 .m-card {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Individual Distinct Vibrant Colored Borders for the 8 Metric Tiles */
+.m-card.m-card-depth, .metrics-grid-4x2 .m-card:nth-child(1) {
+  border: 2px solid #0284c7 !important; /* Sky Blue - Depth */
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.16) !important;
+}
+.m-card.m-card-rop, .metrics-grid-4x2 .m-card:nth-child(2) {
+  border: 2px solid #7c3aed !important; /* Purple - ROP */
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.16) !important;
+}
+.m-card.m-card-wob, .metrics-grid-4x2 .m-card:nth-child(3) {
+  border: 2px solid #ef4444 !important; /* Coral Red - WOB */
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.16) !important;
+}
+.m-card.m-card-torque, .metrics-grid-4x2 .m-card:nth-child(4) {
+  border: 2px solid #f97316 !important; /* Safety Orange - Torque */
+  box-shadow: 0 3px 10px rgba(249, 115, 22, 0.16) !important;
+}
+.m-card.m-card-rpm, .metrics-grid-4x2 .m-card:nth-child(5) {
+  border: 2px solid #06b6d4 !important; /* Cyan Blue - RPM */
+  box-shadow: 0 3px 10px rgba(6, 182, 212, 0.16) !important;
+}
+.m-card.m-card-pump, .metrics-grid-4x2 .m-card:nth-child(6) {
+  border: 2px solid #dc2626 !important; /* Crimson Red - Pump Pressure */
+  box-shadow: 0 3px 10px rgba(220, 38, 38, 0.16) !important;
+}
+.m-card.m-card-mud, .metrics-grid-4x2 .m-card:nth-child(7) {
+  border: 2px solid #0d9488 !important; /* Teal - Mud Weight */
+  box-shadow: 0 3px 10px rgba(13, 148, 136, 0.16) !important;
+}
+.m-card.m-card-flow, .metrics-grid-4x2 .m-card:nth-child(8) {
+  border: 2px solid #2563eb !important; /* Royal Blue - Flow Rate */
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.16) !important;
 }
 
 .m-card:hover {
-  border-color: #cbd5e1;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
+.m-card.m-card-depth:hover { box-shadow: 0 6px 16px rgba(2, 132, 199, 0.28) !important; }
+.m-card.m-card-rop:hover { box-shadow: 0 6px 16px rgba(124, 58, 237, 0.28) !important; }
+.m-card.m-card-wob:hover { box-shadow: 0 6px 16px rgba(239, 68, 68, 0.28) !important; }
+.m-card.m-card-torque:hover { box-shadow: 0 6px 16px rgba(249, 115, 22, 0.28) !important; }
+.m-card.m-card-rpm:hover { box-shadow: 0 6px 16px rgba(6, 182, 212, 0.28) !important; }
+.m-card.m-card-pump:hover { box-shadow: 0 6px 16px rgba(220, 38, 38, 0.28) !important; }
+.m-card.m-card-mud:hover { box-shadow: 0 6px 16px rgba(13, 148, 136, 0.28) !important; }
+.m-card.m-card-flow:hover { box-shadow: 0 6px 16px rgba(37, 99, 235, 0.28) !important; }
 
 .m-card-top {
   display: flex;
@@ -7994,37 +8034,45 @@ body:not(.login-mode) #loginViewContainer {
 }
 
 /* 8 Distinct Metric Tiles Grid - Each With Its Own Unique Color Border */
-#pageDrillEngineer .m-card:nth-child(1) {
-  border: 2px solid #06b6d4 !important; /* Cyan - ROP */
-  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-depth,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(1) {
+  border: 2px solid #0284c7 !important; /* Sky Blue - Depth */
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(2) {
-  border: 2px solid #10b981 !important; /* Emerald - WOB */
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-rop,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(2) {
+  border: 2px solid #7c3aed !important; /* Purple - ROP */
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(3) {
-  border: 2px solid #8b5cf6 !important; /* Purple - RPM */
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-wob,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(3) {
+  border: 2px solid #ef4444 !important; /* Coral Red - WOB */
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(4) {
-  border: 2px solid #f59e0b !important; /* Amber - Torque */
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-torque,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(4) {
+  border: 2px solid #f97316 !important; /* Safety Orange - Torque */
+  box-shadow: 0 3px 10px rgba(249, 115, 22, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(5) {
-  border: 2px solid #ef4444 !important; /* Red - Standpipe Pressure */
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-rpm,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(5) {
+  border: 2px solid #06b6d4 !important; /* Cyan Blue - RPM */
+  box-shadow: 0 3px 10px rgba(6, 182, 212, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(6) {
-  border: 2px solid #2563eb !important; /* Blue - Mud Weight */
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-pump,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(6) {
+  border: 2px solid #dc2626 !important; /* Crimson Red - Pump Pressure */
+  box-shadow: 0 3px 10px rgba(220, 38, 38, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(7) {
-  border: 2px solid #14b8a6 !important; /* Teal - Flow Rate */
-  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-mud,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(7) {
+  border: 2px solid #0d9488 !important; /* Teal - Mud Weight */
+  box-shadow: 0 3px 10px rgba(13, 148, 136, 0.16) !important;
 }
-#pageDrillEngineer .m-card:nth-child(8) {
-  border: 2px solid #ec4899 !important; /* Magenta - Total Gas / ECD */
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.15) !important;
+#pageDrillEngineer .m-card.m-card-flow,
+#pageDrillEngineer .metrics-grid-4x2 .m-card:nth-child(8) {
+  border: 2px solid #2563eb !important; /* Royal Blue - Flow Rate */
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.16) !important;
 }
 
 #pageDrillEngineer .m-card:hover {
