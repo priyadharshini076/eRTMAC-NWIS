@@ -3215,10 +3215,16 @@ body {
   transition: opacity 0.35s ease, transform 0.4s ease, filter 0.4s ease;
 }
 
-/* Active Drilling Mechanical Rotary Shudder & Vibration */
+/* Active Drilling Mechanical Rotary Shudder & Vibration (ONLY active during drilling) */
 #scene3dWrapper.is-drilling-active .subsurface-bg-image {
   animation: drillMicroVibration 0.09s infinite alternate ease-in-out;
   filter: brightness(1.06) contrast(1.05);
+}
+
+/* When drilling is stopped / standby: 3D model is completely stopped and static */
+#scene3dWrapper:not(.is-drilling-active) .subsurface-bg-image {
+  animation: none !important;
+  transform: none !important;
 }
 
 @keyframes drillMicroVibration {
@@ -3230,19 +3236,11 @@ body {
 }
 
 /* ==========================================================================
-   AUTHENTIC 3D DIGGING & MECHANICAL FORMATION EXCAVATION (BOTH VIEWS)
+   AUTHENTIC 3D DIGGING & MECHANICAL FORMATION EXCAVATION
+   (ONLY active when .is-drilling-active is present; static when stopped)
    ========================================================================== */
 
-/* 1. PDC Thermal View - Continuous Downhole Digging (Standby & Active) */
-#scene3dWrapper.view-thermal .subsurface-bg-image {
-  animation: pdcThermalAmbientDigging 2.2s infinite ease-in-out;
-}
-
-@keyframes pdcThermalAmbientDigging {
-  0%, 100% { transform: scale(1.02) translateY(0px); filter: brightness(1.02); }
-  50% { transform: scale(1.02) translateY(2.5px); filter: brightness(1.05); }
-}
-
+/* 1. PDC Thermal View - Active Rock Digging */
 #scene3dWrapper.is-drilling-active.view-thermal .subsurface-bg-image {
   animation: pdc3dActiveRockDigging 0.15s infinite alternate cubic-bezier(0.25, 1, 0.5, 1) !important;
   filter: brightness(1.08) contrast(1.06) !important;
@@ -3256,16 +3254,7 @@ body {
   100% { transform: scale(1.025) translate(0.8px, 3.2px) rotate(0.06deg); }
 }
 
-/* 2. Directional Mud Motor View - Steerable 3D Boring (Standby & Active) */
-#scene3dWrapper.view-directional .subsurface-bg-image {
-  animation: directionalAmbientDigging 2.0s infinite ease-in-out;
-}
-
-@keyframes directionalAmbientDigging {
-  0%, 100% { transform: scale(1.02) translate(0px, 0px); filter: brightness(1.02); }
-  50% { transform: scale(1.02) translate(-1.2px, 2.0px); filter: brightness(1.05); }
-}
-
+/* 2. Directional Mud Motor View - Steerable 3D Boring */
 #scene3dWrapper.is-drilling-active.view-directional .subsurface-bg-image {
   animation: directional3dActiveBoring 0.14s infinite alternate ease-in-out !important;
   filter: brightness(1.08) contrast(1.06) !important;

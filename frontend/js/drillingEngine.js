@@ -91,7 +91,7 @@ class DrillingOperationsEngine {
         title: "3D SUBSURFACE STRATA OVERVIEW",
         sub: "Well OIL-AS-NHRK-104 • Tipam Formation @ 2,501.3 m",
         badge1: { text: "Real-time Telemetry", class: "blue" },
-        badge2: { text: "Bit Active", class: "green" },
+        badge2: { text: "Bit Standby • Static", class: "amber" },
         showDepth: true,
         showStrata: true,
         overlay: null,
@@ -103,7 +103,7 @@ class DrillingOperationsEngine {
         title: "🔥 BIT HEAT & ROCK FRICTION (THERMAL CUTTER VIEW)",
         sub: "Continuous Drilling • PDC Tri-Cone Shearing • Friction Heat Dissipation",
         badge1: { text: "Temp 184.2 °C", class: "red" },
-        badge2: { text: "Critical Friction", class: "amber" },
+        badge2: { text: "Bit Standby • Static", class: "amber" },
         showDepth: false,
         showStrata: false,
         overlay: null,
@@ -115,7 +115,7 @@ class DrillingOperationsEngine {
         title: "🧭 DIRECTIONAL MUD MOTOR & FRACTURE INTRUSION",
         sub: "Positive Displacement Motor (PDM) • Bent Sub 1.5° • Fractured Reservoir Zone",
         badge1: { text: "Inclination 24.8°", class: "amber" },
-        badge2: { text: "Steerable Active", class: "green" },
+        badge2: { text: "Bit Standby • Static", class: "amber" },
         showDepth: false,
         showStrata: false,
         overlay: null,
@@ -460,9 +460,79 @@ class DrillingOperationsEngine {
     ctx.clearRect(0, 0, w, h);
 
     const isDrilling = this.isDrilling;
-    const intensity = isDrilling ? 1.0 : 0.62;
     const now = Date.now();
     const vKey = this.currentView || "subsurface";
+
+    // =========================================================================
+    // 1. STATIC / STOPPED MODE: When NOT drilling, all 3D actions are stopped & static
+    // =========================================================================
+    if (!isDrilling) {
+      if (vKey === "thermal") {
+        const cx = w * 0.50;
+        const cy = h * 0.72;
+        // Static resting PDC cutter outline
+        ctx.strokeStyle = "rgba(245, 158, 11, 0.45)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, 38, 10, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = "#fef08a";
+        for (let b = 0; b < 3; b++) {
+          const bladeAngle = b * Math.PI * 2 / 3;
+          const bladeX = cx + Math.cos(bladeAngle) * 38;
+          const bladeY = cy + Math.sin(bladeAngle) * 10;
+          ctx.beginPath();
+          ctx.arc(bladeX, bladeY, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (vKey === "directional") {
+        const cx = w * 0.38;
+        const cy = h * 0.67;
+        // Static resting directional borehole & toolface guide
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(0.43);
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.45)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 36, 10, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(16, 185, 129, 0.45)";
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, 48);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+      } else {
+        // Subsurface View Static Mode:
+        // Clean static depth guide line & non-pulsing resting bit indicator
+        // No moving particles / mud / cuttings in the wellbore
+        const bitDepthY = h * 0.78;
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.40)";
+        ctx.setLineDash([5, 4]);
+        ctx.beginPath();
+        ctx.moveTo(w * 0.12, bitDepthY);
+        ctx.lineTo(w * 0.88, bitDepthY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = "rgba(245, 158, 11, 0.75)";
+        ctx.beginPath();
+        ctx.arc(w * 0.50, bitDepthY, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return;
+    }
+
+    // =========================================================================
+    // 2. ACTIVE DRILLING MODE: Dynamic 3D Excavation, Rock Digging, Sparks & Circulation
+    // =========================================================================
+    const intensity = 1.0;
 
     if (vKey === "thermal") {
       // =========================================================================
@@ -879,7 +949,7 @@ class DrillingOperationsEngine {
 
     const hudBadge2 = document.getElementById("hudBadge2");
     if (hudBadge2) {
-      hudBadge2.textContent = "BIT STANDBY • OFF-BOTTOM";
+      hudBadge2.textContent = "BIT STANDBY • STATIC";
       hudBadge2.className = "hud-badge amber";
     }
 
